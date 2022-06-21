@@ -1,13 +1,34 @@
 type Auction @entity {
-  id: ID!
+  id: ID! #generated auction ID
+  orderId: BigInt!
+  type: String! #erc1155 or erc721
+  tokenId: BigInt!
+  tokenIndex: BigInt!
+  contractAddress: Bytes! #the contract address
+  startTime: BigInt! #start time timestamp
+  endTime: BigInt! #end time timestamp
+  highestBid: BigInt! #highest bid
+  highestBidder: Bytes! #highest bidder
+  lastBidTime: BigInt!
+  totalBids: BigInt!
+  claimed: Boolean!
+
+  #Auction Settings
+  # dueIncentives: BigInt
+  hammerTimeDuration: BigInt!
+  bidDecimals: BigInt!
+  stepMin: BigInt!
+  incMin: BigInt!
+  incMax: BigInt!
+  bidMultiplier: BigInt!
+  incentivePreset: String!
+
   seller: Bytes
   createdAt: BigInt
   startAt: BigInt
   endsAt: BigInt
   claimAt: BigInt
-  highestBidder: Bytes
   contractId: Bytes
-  tokenId: Int
   quantity: Int
   presetId: Int
   cancelled: Boolean
@@ -17,22 +38,55 @@ type Auction @entity {
 
 type Bid @entity {
   id: ID!
-  bidder: Bytes
-  bidAt: BigInt
-  bidAmount: BigInt
-  auction: Auction
+  tokenId: BigInt!
+  tokenIndex: BigInt
+  auctionID: BigInt!
+  auctionOrderId: BigInt!
+  bidder: Bytes!
+  amount: BigInt!
+  outbid: Boolean!
+  bidTime: BigInt!
+  previousBid: BigInt!
+  previousBidder: Bytes!
+  auctionTimeLeft: BigInt!
+  auctionEndTime: BigInt
+  contractAddress: Bytes!
+  claimed: Boolean!
+  type: String!
 }
 
-type Payout @entity {
+type Incentive @entity {
   id: ID!
-  previousBidder: Bytes
-  paid: Boolean
-  auction: Auction
+  auctionOrderId: BigInt!
+  tokenId: BigInt!
+  tokenIndex: BigInt!
+  contractAddress: Bytes!
+  earner: Bytes!
+  amount: BigInt!
+  auctionID: BigInt!
+  receiveTime: BigInt!
+  type: String!
+}
+
+type Contract @entity {
+  id: ID!
+  biddingAllowed: Boolean!
+}
+
+type Statistic @entity {
+  id: ID!
+  erc1155Auctions: BigInt!
+  erc721Auctions: BigInt!
 }
 
 type User @entity {
-  id: Bytes!
-  payouts: [Payout!]! @derivedBy(field: "previousBidder")
-  auctions: [Auction!]!
-  bids: [Bid!]!
+  id: ID!
+  bids: BigInt! #how many bids this user has placed
+  bidAmount: BigInt! #cumulative amount of bids in GHST
+  outbids: BigInt! # of times this user has outbid someone
+  payouts: BigInt! # of times this user has received payout
+  payoutAmount: BigInt! #cumulative amount of payouts in GHST
+  wins: BigInt!
+
+  auctionsAmount: BigInt!
 }
