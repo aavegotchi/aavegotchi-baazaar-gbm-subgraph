@@ -145,6 +145,7 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
   auction.highestBidder = Address.fromString(
     "0x0000000000000000000000000000000000000000"
   );
+  auction.cancelled = false;
 
   //Fetch auction info from contract
   let contract = Contract.bind(event.address);
@@ -155,6 +156,7 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
   //  contractId quantity, presetId, cancelled, ercType, bids objects
   if (!result.reverted) {
     let auctionInfo = result.value;
+
     auctionInfo.auctionDebt
     auctionInfo.biddingAllowed
     auction.claimed = auctionInfo.claimed
@@ -168,6 +170,8 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
     auction.stepMin = presets.stepMin
     auction.seller = auctionInfo.owner;
     auction.createdAt = event.block.timestamp;
+    auction.quantity = event.params._tokenAmount;
+    
     // auction.endsAt = 
     // auction.claimAt = 
     auction.highestBidder = auctionInfo.highestBidder;
