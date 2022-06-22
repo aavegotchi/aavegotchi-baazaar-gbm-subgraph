@@ -25,7 +25,7 @@ type Auction @entity {
   endsAt: BigInt
   claimAt: BigInt
 
-  quantity: Int
+  quantity: BigInt
   presetId: Int
   cancelled: Boolean
   bids: [Bid!]! @derivedFrom(field: "auction")
