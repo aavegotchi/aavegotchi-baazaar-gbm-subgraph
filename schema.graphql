@@ -3,10 +3,7 @@ type Auction @entity {
   orderId: BigInt!
   type: String! #erc1155 or erc721
   tokenId: BigInt!
-  tokenIndex: BigInt!
   contractAddress: Bytes! #the contract address
-  startTime: BigInt! #start time timestamp
-  endTime: BigInt! #end time timestamp
   highestBid: BigInt! #highest bid
   highestBidder: Bytes! #highest bidder
   lastBidTime: BigInt!
@@ -21,26 +18,24 @@ type Auction @entity {
   incMin: BigInt!
   incMax: BigInt!
   bidMultiplier: BigInt!
-  incentivePreset: String!
 
   seller: Bytes
   createdAt: BigInt
   startAt: BigInt
   endsAt: BigInt
   claimAt: BigInt
-  contractId: Bytes
+
   quantity: Int
   presetId: Int
   cancelled: Boolean
-  ercType: String
-  bids: [Bid!]! @derivedBy(field: "auction")
+  bids: [Bid!]! @derivedFrom(field: "auction")
 }
 
 type Bid @entity {
   id: ID!
   tokenId: BigInt!
-  tokenIndex: BigInt
   auctionID: BigInt!
+  auction: Auction
   auctionOrderId: BigInt!
   bidder: Bytes!
   amount: BigInt!
@@ -59,7 +54,6 @@ type Incentive @entity {
   id: ID!
   auctionOrderId: BigInt!
   tokenId: BigInt!
-  tokenIndex: BigInt!
   contractAddress: Bytes!
   earner: Bytes!
   amount: BigInt!

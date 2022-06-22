@@ -59,7 +59,7 @@ export function handleAuction_EndTimeUpdated(
   event: Auction_EndTimeUpdated
 ): void {
   let entity = Auction.load(event.params._auctionID.toString())!;
-  entity.endTime = event.params._endTime;
+  entity.endsAt = event.params._endTime;
   entity.save();
 }
 
@@ -85,7 +85,6 @@ export function handleAuction_IncentivePaid(
   incentive.receiveTime = event.block.timestamp;
 
   let auction = Auction.load(event.params._auctionID.toString())!;
-  incentive.tokenIndex = auction.tokenIndex;
   incentive.tokenId = auction.tokenId;
   incentive.contractAddress = auction.contractAddress;
   incentive.type = auction.type;
@@ -192,7 +191,7 @@ export function handleAuction_StartTimeUpdated(
   event: Auction_StartTimeUpdated
 ): void {
   let entity = Auction.load(event.params._auctionID.toString())!;
-  entity.startTime = event.params._startTime;
+  entity.startAt = event.params._startTime;
   entity.save();
 }
 

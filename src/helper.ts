@@ -10,6 +10,7 @@ export function getOrCreateBid(bidder: Bytes, bidAmount: BigInt, auction: Auctio
         bid.bidder = bidder;
         bid.amount = bidAmount;
         bid.auctionID = BigInt.fromString(auction.id);
+        bid.auction = auction.id;
         bid.outbid = false;
         bid.bidTime = event.block.timestamp;
         bid.claimed = false;
@@ -20,14 +21,13 @@ export function getOrCreateBid(bidder: Bytes, bidAmount: BigInt, auction: Auctio
 
         //Get tokenId and tokenIndex
         bid.tokenId = auction.tokenId;
-        bid.tokenIndex = auction.tokenIndex;
         bid.contractAddress = auction.contractAddress;
         bid.type = auction.type;
 
         //Get remaining auction time
-        bid.auctionTimeLeft = auction.endTime.minus(event.block.timestamp);
+        bid.auctionTimeLeft = auction.endsAt!.minus(event.block.timestamp);
         bid.auctionOrderId = auction.orderId;
-        bid.auctionEndTime = auction.endTime;
+        bid.auctionEndTime = auction.endsAt;
     }
 
     return bid as Bid;
