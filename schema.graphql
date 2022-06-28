@@ -33,21 +33,21 @@ type Auction @entity {
 
 type Bid @entity {
   id: ID!
-  tokenId: BigInt!
-  auctionID: BigInt!
+  tokenId: BigInt
+  auctionID: BigInt
   auction: Auction
-  auctionOrderId: BigInt!
-  bidder: Bytes!
-  amount: BigInt!
-  outbid: Boolean!
-  bidTime: BigInt!
-  previousBid: BigInt!
-  previousBidder: Bytes!
-  auctionTimeLeft: BigInt!
+  auctionOrderId: BigInt
+  bidder: Bytes
+  amount: BigInt
+  outbid: Boolean
+  bidTime: BigInt
+  previousBid: BigInt
+  previousBidder: Bytes
+  auctionTimeLeft: BigInt
   auctionEndTime: BigInt
-  contractAddress: Bytes!
-  claimed: Boolean!
-  type: String!
+  contractAddress: Bytes
+  claimed: Boolean
+  type: String
 }
 
 type Incentive @entity {

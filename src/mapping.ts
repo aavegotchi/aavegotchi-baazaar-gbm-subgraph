@@ -1,4 +1,4 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt, log } from "@graphprotocol/graph-ts";
 import {
   Contract,
   Auction_BidPlaced,
@@ -24,7 +24,7 @@ import { getOrCreateBid, getOrCreateUser } from "./helper";
 export function handleAuction_BidPlaced(event: Auction_BidPlaced): void {
   //Auction
   let auction = Auction.load(event.params._auctionID.toString())!;
-  let bid = getOrCreateBid(event.params._bidder, event.params._bidAmount, auction as Auction, event);
+  let bid = getOrCreateBid(event.params._bidder, event.params._bidAmount, auction, event);
 
   //Set new bid
   auction.totalBids = auction.totalBids.plus(BigInt.fromI32(1));

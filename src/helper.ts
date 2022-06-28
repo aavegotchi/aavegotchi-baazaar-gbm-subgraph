@@ -25,7 +25,7 @@ export function getOrCreateBid(bidder: Bytes, bidAmount: BigInt, auction: Auctio
         bid.type = auction.type;
 
         //Get remaining auction time
-        bid.auctionTimeLeft = auction.endsAt!.minus(event.block.timestamp);
+        // bid.auctionTimeLeft = auction.endsAt!.minus(event.block.timestamp);
         bid.auctionOrderId = auction.orderId;
         bid.auctionEndTime = auction.endsAt;
     }
@@ -43,6 +43,7 @@ export function getOrCreateUser(address: Bytes): User {
         user.payouts = BigInt.fromI32(0);
         user.payoutAmount = BigInt.fromI32(0);
         user.wins = BigInt.fromI32(0);
+        user.auctionsAmount = BigInt.fromI32(0);
     }
 
     return user as User;
