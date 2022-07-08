@@ -25,7 +25,7 @@ dataSources:
         - Contract_BiddingAllowed
       abis:
         - name: Contract
-          file: ./abis/Contract.json
+          file: ./abis/abi_gbm.json
       eventHandlers:
         - event: AuctionCancelled(indexed uint256,uint256)
           handler: handleAuctionCancelled
@@ -37,11 +37,11 @@ dataSources:
           handler: handleAuction_EndTimeUpdated
         - event: Auction_IncentivePaid(indexed uint256,indexed address,uint256)
           handler: handleAuction_IncentivePaid
-        - event: Auction_Initialized(indexed uint256,indexed uint256,indexed uint256,address,bytes4)
+        - event: Auction_Initialized(indexed uint256,indexed uint256,indexed uint256,address,bytes4,uint256)
           handler: handleAuction_Initialized
         - event: Auction_ItemClaimed(indexed uint256)
           handler: handleAuction_ItemClaimed
-        - event: Auction_StartTimeUpdated(indexed uint256,uint256)
+        - event: Auction_StartTimeUpdated(indexed uint256,uint256,uint256)
           handler: handleAuction_StartTimeUpdated
         - event: Contract_BiddingAllowed(indexed address,bool)
           handler: handleContract_BiddingAllowed

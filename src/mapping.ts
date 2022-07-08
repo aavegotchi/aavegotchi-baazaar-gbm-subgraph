@@ -23,7 +23,12 @@ import { getOrCreateBid, getOrCreateUser } from "./helper";
 
 export function handleAuction_BidPlaced(event: Auction_BidPlaced): void {
   //Auction
-  let auction = Auction.load(event.params._auctionID.toString())!;
+  log.warning("handleAuction_BidPlaced, auctionId = {}", [event.params._auctionID.toString()])
+  let auction = Auction.load(event.params._auctionID.toString());
+  if(!auction) {
+    log.warning("auction with id {} not found", [event.params._auctionID.toString()])
+    return;
+  }
   let bid = getOrCreateBid(event.params._bidder, event.params._bidAmount, auction, event);
 
   //Set new bid
@@ -44,6 +49,10 @@ export function handleAuction_BidPlaced(event: Auction_BidPlaced): void {
 
 export function handleAuction_BidRemoved(event: Auction_BidRemoved): void {
   let auction = Auction.load(event.params._auctionID.toString());
+  if(!auction) {
+    log.warning("auction with id {} not found", [event.params._auctionID.toString()])
+    return;
+  }
   let entity = getOrCreateBid(event.params._bidder, event.params._bidAmount, auction as Auction, event);
 
   //Update user
@@ -58,7 +67,11 @@ export function handleAuction_BidRemoved(event: Auction_BidRemoved): void {
 export function handleAuction_EndTimeUpdated(
   event: Auction_EndTimeUpdated
 ): void {
-  let entity = Auction.load(event.params._auctionID.toString())!;
+  let entity = Auction.load(event.params._auctionID.toString());
+  if(!entity) {
+    log.warning("auction with id {} not found", [event.params._auctionID.toString()])
+    return;
+  }
   entity.endsAt = event.params._endTime;
   entity.save();
 }
@@ -84,7 +97,11 @@ export function handleAuction_IncentivePaid(
   incentive.auctionID = event.params._auctionID;
   incentive.receiveTime = event.block.timestamp;
 
-  let auction = Auction.load(event.params._auctionID.toString())!;
+  let auction = Auction.load(event.params._auctionID.toString());
+  if(!auction) {
+    log.warning("auction with id {} not found", [event.params._auctionID.toString()])
+    return;
+  }
   incentive.tokenId = auction.tokenId;
   incentive.contractAddress = auction.contractAddress;
   incentive.type = auction.type;
@@ -194,7 +211,11 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
 export function handleAuction_StartTimeUpdated(
   event: Auction_StartTimeUpdated
 ): void {
-  let entity = Auction.load(event.params._auctionID.toString())!;
+  let entity = Auction.load(event.params._auctionID.toString());
+  if(!entity) {
+    log.warning("auction with id {} not found", [event.params._auctionID.toString()])
+    return;
+  }
   entity.startAt = event.params._startTime;
   entity.save();
 }
@@ -211,7 +232,11 @@ export function handleContract_BiddingAllowed(
 }
 
 export function handleAuction_ItemClaimed(event: Auction_ItemClaimed): void {
-  let auction = Auction.load(event.params._auctionID.toString())!;
+  let auction = Auction.load(event.params._auctionID.toString());
+  if(!auction) {
+    log.warning("auction with id {} not found", [event.params._auctionID.toString()])
+    return;
+  }
   auction.claimed = true;
 
   let bid = getOrCreateBid(auction.highestBidder, auction.highestBid, auction as Auction, event);
@@ -227,7 +252,11 @@ export function handleAuction_ItemClaimed(event: Auction_ItemClaimed): void {
 }
 
 export function handleAuctionCancelled(event: AuctionCancelled): void {
-  let auction = Auction.load(event.params._auctionId.toString())!;
+  let auction = Auction.load(event.params._auctionId.toString());
+  if(!auction) {
+    log.warning("auction with id {} not found", [event.params._auctionId.toString()])
+    return;
+  }
   auction.cancelled = true;
   auction.save();
 }
