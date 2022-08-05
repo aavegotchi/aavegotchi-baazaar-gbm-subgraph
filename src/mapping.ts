@@ -243,6 +243,8 @@ export function handleAuction_StartTimeUpdated(
         return;
     }
     entity.startAt = event.params._startTime;
+    entity.endsAt = event.params._endTime;
+    entity.endsAtUnmodified = entity.endsAt;
     entity.save();
 }
 
