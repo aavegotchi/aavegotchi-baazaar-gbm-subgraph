@@ -19,7 +19,6 @@ import {
     User,
     Contract as ContractEntity,
 } from "../generated/schema";
-import { TIMESTAMP_TWO_DAYS } from "./constants";
 import { getOrCreateBid, getOrCreateUser } from "./helper";
 
 export function handleAuction_BidPlaced(event: Auction_BidPlaced): void {
@@ -210,8 +209,6 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
         auction.quantity = event.params._tokenAmount;
         auction.startAt = event.block.timestamp;
 
-        auction.endsAt = event.block.timestamp.plus(TIMESTAMP_TWO_DAYS);
-        auction.endsAtInitial = auction.endsAt;
         // auction.claimAt =
         auction.highestBidder = auctionInfo.highestBidder;
     }
@@ -242,8 +239,6 @@ export function handleAuction_StartTimeUpdated(
         return;
     }
     entity.startAt = event.params._startTime;
-    entity.endsAt = entity.startAt!.plus(TIMESTAMP_TWO_DAYS);
-    entity.endsAtInitial = entity.endsAt;
     entity.save();
 }
 
