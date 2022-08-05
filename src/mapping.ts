@@ -209,6 +209,10 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
         auction.quantity = event.params._tokenAmount;
         auction.startAt = event.block.timestamp;
 
+        auction.startAt = auctionInfo.info.startTime;
+        auction.endsAt = auctionInfo.info.endTime;
+        auction.endsAtUnmodified = auctionInfo.info.endTime;
+
         // auction.claimAt =
         auction.highestBidder = auctionInfo.highestBidder;
     }

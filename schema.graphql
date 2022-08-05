@@ -23,6 +23,7 @@ type Auction @entity {
     createdAt: BigInt
     startAt: BigInt
     endsAt: BigInt
+    endsAtUnmodified: BigInt
     claimAt: BigInt
 
     quantity: BigInt
