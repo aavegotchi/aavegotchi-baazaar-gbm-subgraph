@@ -1,12 +1,22 @@
 import { BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
-import { Auction_BidPlaced, Auction_BidRemoved, Contract } from "../generated/Contract/Contract";
+import {
+    Auction_BidPlaced,
+    Auction_BidRemoved,
+    Contract,
+} from "../generated/Contract/Contract";
 import { Auction, Bid, User } from "../generated/schema";
 import { BIGINT_ZERO } from "./constants";
 
-export function getOrCreateBid(bidder: Bytes, bidAmount: BigInt, auction: Auction, event: ethereum.Event): Bid {
-    let bidId = auction.id + "_" + bidder.toHexString() + "_" + bidAmount.toString();
+export function getOrCreateBid(
+    bidder: Bytes,
+    bidAmount: BigInt,
+    auction: Auction,
+    event: ethereum.Event
+): Bid {
+    let bidId =
+        auction.id + "_" + bidder.toHexString() + "_" + bidAmount.toString();
     let bid = Bid.load(bidId);
-    if(bid == null) {
+    if (bid == null) {
         bid = new Bid(bidId);
         bid.bidder = bidder;
         bid.amount = bidAmount;
@@ -50,14 +60,17 @@ export function getOrCreateUser(address: Bytes): User {
     return user as User;
 }
 
-export function getOrCreateAuction(auctionId: BigInt, event: ethereum.Event): Auction {
+export function getOrCreateAuction(
+    auctionId: BigInt,
+    event: ethereum.Event
+): Auction {
     let id = auctionId.toString();
     let auction = Auction.load(id);
-    if(!auction) {
+    if (!auction) {
         auction = new Auction(id);
         let contract = Contract.bind(event.address);
         let result = contract.try_getAuctionInfo(auctionId);
-        if(result.reverted) {
+        if (result.reverted) {
             return auction;
         }
 
@@ -71,6 +84,8 @@ export function getOrCreateAuction(auctionId: BigInt, event: ethereum.Event): Au
         auction.contractAddress = event.address;
         // auction.createdAt = event.transaction.
     }
+
+    return auction;
 
     // id: ID! #generated auction ID
     // orderId: BigInt!
