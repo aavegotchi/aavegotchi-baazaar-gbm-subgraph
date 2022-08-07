@@ -207,11 +207,11 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
         auction.seller = auctionInfo.owner;
         auction.createdAt = event.block.timestamp;
         auction.quantity = event.params._tokenAmount;
-        auction.startAt = event.block.timestamp;
+        auction.startsAt = event.block.timestamp;
 
-        auction.startAt = auctionInfo.info.startTime;
+        auction.startsAt = auctionInfo.info.startTime;
         auction.endsAt = auctionInfo.info.endTime;
-        auction.endsAtUnmodified = auctionInfo.info.endTime;
+        auction.endsAtOriginal = auctionInfo.info.endTime;
 
         // auction.claimAt =
         auction.highestBidder = auctionInfo.highestBidder;
@@ -242,9 +242,9 @@ export function handleAuction_StartTimeUpdated(
         ]);
         return;
     }
-    entity.startAt = event.params._startTime;
+    entity.startsAt = event.params._startTime;
     entity.endsAt = event.params._endTime;
-    entity.endsAtUnmodified = entity.endsAt;
+    entity.endsAtOriginal = entity.endsAt;
     entity.save();
 }
 

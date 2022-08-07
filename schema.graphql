@@ -21,9 +21,9 @@ type Auction @entity {
 
     seller: Bytes
     createdAt: BigInt
-    startAt: BigInt
+    startsAt: BigInt
     endsAt: BigInt
-    endsAtUnmodified: BigInt
+    endsAtOriginal: BigInt
     claimAt: BigInt
 
     quantity: BigInt
