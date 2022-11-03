@@ -187,10 +187,11 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
     let contract = Contract.bind(event.address);
 
     let result = contract.try_getAuctionInfo(event.params._auctionID);
+    let resultHammerTime = contract.try_getAuctionHammerTimeDuration();
 
     // @todo: seller, createdAt, startsAt, endsAt, claimAt,
     //  contractId quantity, presetId, cancelled, ercType, bids objects
-    if (!result.reverted) {
+    if (!result.reverted && !resultHammerTime.reverted) {
         let auctionInfo = result.value;
 
         auctionInfo.auctionDebt;
@@ -200,7 +201,7 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
         let presets = auctionInfo.presets;
         auction.bidDecimals = presets.bidDecimals;
         auction.bidMultiplier = presets.bidMultiplier;
-        auction.hammerTimeDuration = BigInt.fromI32(presets.hammerTimeDuration);
+        auction.hammerTimeDuration = resultHammerTime.value;
         auction.incMax = presets.incMax;
         auction.incMin = presets.incMin;
         auction.stepMin = presets.stepMin;
