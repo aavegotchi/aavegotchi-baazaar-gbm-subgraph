@@ -197,7 +197,7 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
         auctionInfo.auctionDebt;
         auctionInfo.biddingAllowed;
         auction.claimed = auctionInfo.claimed;
-
+        
         let presets = auctionInfo.presets;
         auction.bidDecimals = presets.bidDecimals;
         auction.bidMultiplier = presets.bidMultiplier;
@@ -209,6 +209,7 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
         auction.createdAt = event.block.timestamp;
         auction.quantity = event.params._tokenAmount;
         auction.startsAt = event.block.timestamp;
+        auction.dueIncentives = auctionInfo.dueIncentives;
 
         auction.startsAt = auctionInfo.info.startTime;
         auction.endsAt = auctionInfo.info.endTime;

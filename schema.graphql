@@ -19,6 +19,8 @@ type Auction @entity {
     incMax: BigInt!
     bidMultiplier: BigInt!
 
+    dueIncentives: BigInt
+
     seller: Bytes
     createdAt: BigInt
     startsAt: BigInt
