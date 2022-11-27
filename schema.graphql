@@ -1,89 +1,89 @@
 type Auction @entity {
-    id: ID! #generated auction ID
-    orderId: BigInt!
-    type: String! #erc1155 or erc721
-    tokenId: BigInt!
-    contractAddress: Bytes! #the contract address
-    highestBid: BigInt! #highest bid
-    highestBidder: Bytes! #highest bidder
-    lastBidTime: BigInt!
-    totalBids: BigInt!
-    claimed: Boolean!
+  id: ID! #generated auction ID
+  orderId: BigInt!
+  type: String! #erc1155 or erc721
+  tokenId: BigInt!
+  contractAddress: Bytes! #the contract address
+  highestBid: BigInt! #highest bid
+  highestBidder: Bytes! #highest bidder
+  lastBidTime: BigInt!
+  totalBids: BigInt!
+  claimed: Boolean!
 
-    #Auction Settings
-    # dueIncentives: BigInt
-    hammerTimeDuration: BigInt!
-    bidDecimals: BigInt!
-    stepMin: BigInt!
-    incMin: BigInt!
-    incMax: BigInt!
-    bidMultiplier: BigInt!
+  #Auction Settings
+  # dueIncentives: BigInt
+  hammerTimeDuration: BigInt!
+  bidDecimals: BigInt!
+  stepMin: BigInt!
+  incMin: BigInt!
+  incMax: BigInt!
+  bidMultiplier: BigInt!
 
-    dueIncentives: BigInt
+  dueIncentives: BigInt
 
-    seller: Bytes
-    createdAt: BigInt
-    startsAt: BigInt
-    endsAt: BigInt
-    endsAtOriginal: BigInt
-    claimAt: BigInt
+  seller: Bytes
+  createdAt: BigInt
+  startsAt: BigInt
+  endsAt: BigInt
+  endsAtOriginal: BigInt
+  claimAt: BigInt
 
-    quantity: BigInt
-    presetId: Int
-    cancelled: Boolean
-    bids: [Bid!]! @derivedFrom(field: "auction")
+  quantity: BigInt
+  presetId: Int
+  cancelled: Boolean
+  bids: [Bid!]! @derivedFrom(field: "auction")
 }
 
 type Bid @entity {
-    id: ID!
-    tokenId: BigInt
-    auctionID: BigInt
-    auction: Auction
-    auctionOrderId: BigInt
-    bidder: Bytes
-    amount: BigInt
-    outbid: Boolean
-    bidTime: BigInt
-    previousBid: BigInt
-    previousBidder: Bytes
-    auctionTimeLeft: BigInt
-    auctionEndTime: BigInt
-    contractAddress: Bytes
-    claimed: Boolean
-    type: String
+  id: ID!
+  tokenId: BigInt
+  auctionID: BigInt
+  auction: Auction
+  auctionOrderId: BigInt
+  bidder: Bytes
+  amount: BigInt
+  outbid: Boolean
+  bidTime: BigInt
+  previousBid: BigInt
+  previousBidder: Bytes
+  auctionTimeLeft: BigInt
+  auctionEndTime: BigInt
+  contractAddress: Bytes
+  claimed: Boolean
+  type: String
 }
 
 type Incentive @entity {
-    id: ID!
-    auctionOrderId: BigInt!
-    tokenId: BigInt!
-    contractAddress: Bytes!
-    earner: Bytes!
-    amount: BigInt!
-    auctionID: BigInt!
-    receiveTime: BigInt!
-    type: String!
+  id: ID!
+  auctionOrderId: BigInt!
+  tokenId: BigInt!
+  contractAddress: Bytes!
+  earner: Bytes
+  amount: BigInt!
+  auctionID: BigInt!
+  receiveTime: BigInt!
+  type: String!
 }
 
 type Contract @entity {
-    id: ID!
-    biddingAllowed: Boolean!
+  id: ID!
+  biddingAllowed: Boolean!
 }
 
 type Statistic @entity {
-    id: ID!
-    erc1155Auctions: BigInt!
-    erc721Auctions: BigInt!
+  id: ID!
+  erc1155Auctions: BigInt!
+  erc721Auctions: BigInt!
 }
 
 type User @entity {
-    id: ID!
-    bids: BigInt! #how many bids this user has placed
-    bidAmount: BigInt! #cumulative amount of bids in GHST
-    outbids: BigInt! # of times this user has outbid someone
-    payouts: BigInt! # of times this user has received payout
-    payoutAmount: BigInt! #cumulative amount of payouts in GHST
-    wins: BigInt!
+  id: ID!
+  bids: BigInt! #how many bids this user has placed
+  bidAmount: BigInt! #cumulative amount of bids in GHST
+  outbids: BigInt! # of times this user has outbid someone
+  payouts: BigInt! # of times this user has received payout
+  payoutAmount: BigInt! #cumulative amount of payouts in GHST
+  wins: BigInt!
 
-    auctionsAmount: BigInt!
+  auctionsAmount: BigInt!
 }
