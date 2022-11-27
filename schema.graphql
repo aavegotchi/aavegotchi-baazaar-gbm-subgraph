@@ -58,7 +58,7 @@ type Incentive @entity {
   auctionOrderId: BigInt!
   tokenId: BigInt!
   contractAddress: Bytes!
-  earner: Bytes
+  earner: Bytes!
   amount: BigInt!
   auctionID: BigInt!
   receiveTime: BigInt!
