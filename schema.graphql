@@ -77,7 +77,7 @@ type Statistic @entity {
 }
 
 type User @entity {
-  id: ID!
+  id: Bytes!
   bids: BigInt! #how many bids this user has placed
   bidAmount: BigInt! #cumulative amount of bids in GHST
   outbids: BigInt! # of times this user has outbid someone
@@ -86,4 +86,119 @@ type User @entity {
   wins: BigInt!
 
   auctionsAmount: BigInt!
+
+  events: [Event!]! @derivedFrom(field: "emitter")
+}
+
+interface Event {
+  id: ID!
+  transaction: Transaction!
+  emitter: User!
+  timestamp: BigInt!
+}
+type Transaction @entity(immutable: true) {
+  id: ID!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  events: [Event!]! @derivedFrom(field: "transaction")
+}
+
+type AuctionCancelled implements Event @entity(immutable: true) {
+  id: ID!
+  emitter: User!
+  transaction: Transaction!
+  timestamp: BigInt!
+
+  auctionId: BigInt!
+  tokenId: BigInt!
+
+  auction: Auction!
+}
+
+type Auction_ItemClaimed implements Event @entity(immutable: true) {
+  id: ID!
+  emitter: User!
+  transaction: Transaction!
+  timestamp: BigInt!
+
+  auctionId: BigInt!
+
+  auction: Auction!
+}
+
+type Contract_BiddingAllowed implements Event @entity(immutable: true) {
+  id: ID!
+  emitter: User!
+  transaction: Transaction!
+  timestamp: BigInt!
+
+  contract: Bytes
+  biddingAllowed: Boolean
+}
+
+type Auction_StartTimeUpdated implements Event @entity(immutable: true) {
+  id: ID!
+  emitter: User!
+  transaction: Transaction!
+  timestamp: BigInt!
+
+  auctionId: BigInt!
+  startTime: BigInt!
+  endTime: BigInt!
+
+  auction: Auction!
+}
+
+type Auction_Initialized implements Event @entity(immutable: true) {
+  id: ID!
+  emitter: User!
+  transaction: Transaction!
+  timestamp: BigInt!
+
+  auctionId: BigInt!
+  tokenID: BigInt!
+  tokenAmount: BigInt!
+  contractAddress: Bytes!
+  tokenKind: Bytes!
+  presetID: BigInt!
+
+  auction: Auction!
+}
+
+type Auction_IncentivePaid implements Event @entity(immutable: true) {
+  id: ID!
+  emitter: User!
+  transaction: Transaction!
+  timestamp: BigInt!
+
+  auctionId: BigInt!
+  earner: Bytes!
+  incentiveAmount: BigInt!
+
+  auction: Auction!
+}
+
+type Auction_EndTimeUpdated implements Event @entity(immutable: true) {
+  id: ID!
+  emitter: User!
+  transaction: Transaction!
+  timestamp: BigInt!
+
+  auctionId: BigInt!
+  endTime: BigInt!
+
+  auction: Auction!
+}
+
+type Auction_BidRemoved implements Event @entity(immutable: true) {
+  id: ID!
+  emitter: User!
+  transaction: Transaction!
+  timestamp: BigInt!
+
+  auctionId: BigInt!
+  bidder: Bytes!
+  bidAmount: BigInt!
+
+  auction: Auction!
 }
