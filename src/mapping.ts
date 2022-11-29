@@ -31,9 +31,13 @@ import { getOrCreateBid, getOrCreateUser } from "./helper";
 import { events, transactions } from "@amxx/graphprotocol-utils";
 
 export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new Auction_BidPlaced(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
@@ -79,9 +83,13 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
 }
 
 export function handleAuction_BidRemoved(event: Auction_BidRemovedEvent): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new Auction_BidRemoved(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
@@ -118,9 +126,13 @@ export function handleAuction_BidRemoved(event: Auction_BidRemovedEvent): void {
 export function handleAuction_EndTimeUpdated(
     event: Auction_EndTimeUpdatedEvent
 ): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new Auction_EndTimeUpdated(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
@@ -144,9 +156,13 @@ export function handleAuction_EndTimeUpdated(
 export function handleAuction_IncentivePaid(
     event: Auction_IncentivePaidEvent
 ): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new Auction_IncentivePaid(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
@@ -199,9 +215,13 @@ export function handleAuction_IncentivePaid(
 export function handleAuction_Initialized(
     event: Auction_InitializedEvent
 ): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new Auction_Initialized(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
@@ -315,9 +335,13 @@ export function handleAuction_Initialized(
 export function handleAuction_StartTimeUpdated(
     event: Auction_StartTimeUpdatedEvent
 ): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new Auction_StartTimeUpdated(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
@@ -346,9 +370,13 @@ export function handleAuction_StartTimeUpdated(
 export function handleContract_BiddingAllowed(
     event: Contract_BiddingAllowedEvent
 ): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new Contract_BiddingAllowed(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
@@ -369,9 +397,13 @@ export function handleContract_BiddingAllowed(
 export function handleAuction_ItemClaimed(
     event: Auction_ItemClaimedEvent
 ): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new Auction_ItemClaimed(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
@@ -409,9 +441,13 @@ export function handleAuction_ItemClaimed(
 }
 
 export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
     // event
     let ev = new AuctionCancelled(events.id(event));
-    ev.emitter = event.transaction.from;
+    ev.emitter = emitter.id;
     ev.transaction = transactions.log(event).id;
     ev.timestamp = event.block.timestamp;
 
