@@ -1,10 +1,16 @@
-import { BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts";
+import {
+    Address,
+    bigInt,
+    BigInt,
+    Bytes,
+    ethereum,
+} from "@graphprotocol/graph-ts";
 import {
     Auction_BidPlaced,
     Auction_BidRemoved,
     Contract,
 } from "../generated/Contract/Contract";
-import { Auction, Bid, User } from "../generated/schema";
+import { Auction, Bid, Incentive, User } from "../generated/schema";
 import { BIGINT_ZERO } from "./constants";
 
 export function getOrCreateBid(
@@ -97,4 +103,31 @@ export function getOrCreateAuction(
     // lastBidTime: BigInt!
     // totalBids: BigInt!
     // claimed: Boolean!
+}
+
+export function getOrCreateIncentive(
+    auction: Auction,
+    earner: Address,
+    amount: BigInt,
+    event: ethereum.Event
+): Incentive {
+    let incentiveId =
+        auction.id + "_" + earner.toHexString() + "_" + amount.toString();
+
+    let incentive = Incentive.load(incentiveId);
+
+    if (incentive == null) {
+        incentive = new Incentive(incentiveId);
+        incentive.amount = amount;
+        incentive.earner = earner;
+        incentive.auctionID = bigInt.fromString(auction.id);
+        incentive.auction = auction.id;
+        incentive.tokenId = auction.tokenId;
+        incentive.contractAddress = auction.contractAddress;
+        incentive.type = auction.type;
+        incentive.auctionOrderId = auction.orderId;
+        incentive.receiveTime = event.block.timestamp;
+    }
+
+    return incentive;
 }

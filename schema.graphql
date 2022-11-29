@@ -32,6 +32,7 @@ type Auction @entity {
     presetId: Int
     cancelled: Boolean
     bids: [Bid!]! @derivedFrom(field: "auction")
+    incentives: [Incentive!]! @derivedFrom(field: "auction")
 }
 
 type Bid @entity {
@@ -61,6 +62,7 @@ type Incentive @entity {
     earner: Bytes!
     amount: BigInt!
     auctionID: BigInt!
+    auction: Auction!
     receiveTime: BigInt!
     type: String!
 }

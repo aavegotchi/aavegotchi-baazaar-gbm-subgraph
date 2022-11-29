@@ -26,8 +26,13 @@ import {
     Contract_BiddingAllowed,
     Auction_ItemClaimed,
     AuctionCancelled,
+    Bid,
 } from "../generated/schema";
-import { getOrCreateBid, getOrCreateUser } from "./helper";
+import {
+    getOrCreateBid,
+    getOrCreateIncentive,
+    getOrCreateUser,
+} from "./helper";
 import { events, transactions } from "@amxx/graphprotocol-utils";
 
 export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
@@ -173,24 +178,6 @@ export function handleAuction_IncentivePaid(
     ev.auction = event.params._auctionID.toString();
     ev.save();
 
-    let incentiveId =
-        event.params._auctionID.toString() +
-        "_" +
-        event.params._earner.toHexString() +
-        "_" +
-        event.params._incentiveAmount.toString();
-
-    let incentive = Incentive.load(incentiveId);
-
-    if (incentive == null) {
-        incentive = new Incentive(incentiveId);
-    }
-
-    incentive.amount = event.params._incentiveAmount;
-    incentive.earner = event.params._earner;
-    incentive.auctionID = event.params._auctionID;
-    incentive.receiveTime = event.block.timestamp;
-
     let auction = Auction.load(event.params._auctionID.toString());
     if (!auction) {
         log.warning("auction with id {} not found", [
@@ -198,10 +185,14 @@ export function handleAuction_IncentivePaid(
         ]);
         return;
     }
-    incentive.tokenId = auction.tokenId;
-    incentive.contractAddress = auction.contractAddress;
-    incentive.type = auction.type;
-    incentive.auctionOrderId = auction.orderId;
+    let incentive = getOrCreateIncentive(
+        auction,
+        event.params._earner,
+        event.params._incentiveAmount,
+        event
+    );
+    incentive.save();
+
     // @todo: Payouts object: previousBidder
 
     let user = getOrCreateUser(event.params._earner);
@@ -465,6 +456,26 @@ export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
         ]);
         return;
     }
+
+    // fetch highestBid
+    let bid = getOrCreateBid(
+        auction.highestBidder,
+        auction.highestBid,
+        auction,
+        event
+    );
+    bid.outbid = true;
+    bid.save();
+
+    // incentive entity
+    let incentive = getOrCreateIncentive(
+        auction,
+        Address.fromBytes(auction.highestBidder),
+        auction.dueIncentives!,
+        event
+    );
+    incentive.save();
+
     auction.cancelled = true;
     auction.save();
 }
