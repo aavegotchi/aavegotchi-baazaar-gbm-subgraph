@@ -457,25 +457,6 @@ export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
         return;
     }
 
-    // fetch highestBid
-    let bid = getOrCreateBid(
-        auction.highestBidder,
-        auction.highestBid,
-        auction,
-        event
-    );
-    bid.outbid = true;
-    bid.save();
-
-    // incentive entity
-    let incentive = getOrCreateIncentive(
-        auction,
-        Address.fromBytes(auction.highestBidder),
-        auction.dueIncentives!,
-        event
-    );
-    incentive.save();
-
     auction.cancelled = true;
     auction.save();
 }
