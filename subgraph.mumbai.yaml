@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Contract
-    network: matic
+    network: mumbai
     source:
-      address: "0xd5543237c656f25eea69f1e247b8fa59ba353306"
+      address: "0xC022b0Ee6DE8D5B2780Ee9A2380eB883D1aAf78E"
       abi: Contract
-      startBlock: 36176058
+      startBlock: 29313749
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
