@@ -1,204 +1,217 @@
 type Auction @entity {
-  id: ID! #generated auction ID
-  orderId: BigInt!
-  type: String! #erc1155 or erc721
-  tokenId: BigInt!
-  contractAddress: Bytes! #the contract address
-  highestBid: BigInt! #highest bid
-  highestBidder: Bytes! #highest bidder
-  lastBidTime: BigInt!
-  totalBids: BigInt!
-  claimed: Boolean!
+    id: ID! #generated auction ID
+    orderId: BigInt!
+    type: String! #erc1155 or erc721
+    tokenId: BigInt!
+    contractAddress: Bytes! #the contract address
+    highestBid: BigInt! #highest bid
+    highestBidder: Bytes! #highest bidder
+    lastBidTime: BigInt!
+    totalBids: BigInt!
+    claimed: Boolean!
 
-  #Auction Settings
-  # dueIncentives: BigInt
-  hammerTimeDuration: BigInt!
-  bidDecimals: BigInt!
-  stepMin: BigInt!
-  incMin: BigInt!
-  incMax: BigInt!
-  bidMultiplier: BigInt!
+    #Auction Settings
+    # dueIncentives: BigInt
+    hammerTimeDuration: BigInt!
+    bidDecimals: BigInt!
+    stepMin: BigInt!
+    incMin: BigInt!
+    incMax: BigInt!
+    bidMultiplier: BigInt!
 
-  dueIncentives: BigInt
+    dueIncentives: BigInt
 
-  seller: Bytes
-  createdAt: BigInt
-  startsAt: BigInt
-  endsAt: BigInt
-  endsAtOriginal: BigInt
-  claimAt: BigInt
+    seller: Bytes
+    createdAt: BigInt
+    startsAt: BigInt
+    endsAt: BigInt
+    endsAtOriginal: BigInt
+    claimAt: BigInt
 
-  quantity: BigInt
-  presetId: Int
-  cancelled: Boolean
-  bids: [Bid!]! @derivedFrom(field: "auction")
+    quantity: BigInt
+    presetId: Int
+    cancelled: Boolean
+    bids: [Bid!]! @derivedFrom(field: "auction")
 }
 
 type Bid @entity {
-  id: ID!
-  tokenId: BigInt
-  auctionID: BigInt
-  auction: Auction
-  auctionOrderId: BigInt
-  bidder: Bytes
-  amount: BigInt
-  outbid: Boolean
-  bidTime: BigInt
-  previousBid: BigInt
-  previousBidder: Bytes
-  auctionTimeLeft: BigInt
-  auctionEndTime: BigInt
-  contractAddress: Bytes
-  claimed: Boolean
-  type: String
+    id: ID!
+    tokenId: BigInt
+    auctionID: BigInt
+    auction: Auction
+    auctionOrderId: BigInt
+    bidder: Bytes
+    amount: BigInt
+    outbid: Boolean
+    bidTime: BigInt
+    previousBid: BigInt
+    previousBidder: Bytes
+    auctionTimeLeft: BigInt
+    auctionEndTime: BigInt
+    contractAddress: Bytes
+    claimed: Boolean
+    type: String
 }
 
 type Incentive @entity {
-  id: ID!
-  auctionOrderId: BigInt!
-  tokenId: BigInt!
-  contractAddress: Bytes!
-  earner: Bytes!
-  amount: BigInt!
-  auctionID: BigInt!
-  receiveTime: BigInt!
-  type: String!
+    id: ID!
+    auctionOrderId: BigInt!
+    tokenId: BigInt!
+    contractAddress: Bytes!
+    earner: Bytes!
+    amount: BigInt!
+    auctionID: BigInt!
+    receiveTime: BigInt!
+    type: String!
 }
 
 type Contract @entity {
-  id: ID!
-  biddingAllowed: Boolean!
+    id: ID!
+    biddingAllowed: Boolean!
 }
 
 type Statistic @entity {
-  id: ID!
-  erc1155Auctions: BigInt!
-  erc721Auctions: BigInt!
+    id: ID!
+    erc1155Auctions: BigInt!
+    erc721Auctions: BigInt!
 }
 
 type User @entity {
-  id: Bytes!
-  bids: BigInt! #how many bids this user has placed
-  bidAmount: BigInt! #cumulative amount of bids in GHST
-  outbids: BigInt! # of times this user has outbid someone
-  payouts: BigInt! # of times this user has received payout
-  payoutAmount: BigInt! #cumulative amount of payouts in GHST
-  wins: BigInt!
+    id: Bytes!
+    bids: BigInt! #how many bids this user has placed
+    bidAmount: BigInt! #cumulative amount of bids in GHST
+    outbids: BigInt! # of times this user has outbid someone
+    payouts: BigInt! # of times this user has received payout
+    payoutAmount: BigInt! #cumulative amount of payouts in GHST
+    wins: BigInt!
 
-  auctionsAmount: BigInt!
+    auctionsAmount: BigInt!
 
-  events: [Event!]! @derivedFrom(field: "emitter")
+    events: [Event!]! @derivedFrom(field: "emitter")
 }
 
 interface Event {
-  id: ID!
-  transaction: Transaction!
-  emitter: User!
-  timestamp: BigInt!
+    id: ID!
+    transaction: Transaction!
+    emitter: User!
+    timestamp: BigInt!
 }
 type Transaction @entity(immutable: true) {
-  id: ID!
-  timestamp: BigInt!
-  blockNumber: BigInt!
-  events: [Event!]! @derivedFrom(field: "transaction")
+    id: ID!
+    timestamp: BigInt!
+    blockNumber: BigInt!
+    events: [Event!]! @derivedFrom(field: "transaction")
 }
 
 type AuctionCancelled implements Event @entity(immutable: true) {
-  id: ID!
-  emitter: User!
-  transaction: Transaction!
-  timestamp: BigInt!
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
 
-  auctionId: BigInt!
-  tokenId: BigInt!
+    auctionId: BigInt!
+    tokenId: BigInt!
 
-  auction: Auction!
+    auction: Auction!
 }
 
 type Auction_ItemClaimed implements Event @entity(immutable: true) {
-  id: ID!
-  emitter: User!
-  transaction: Transaction!
-  timestamp: BigInt!
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
 
-  auctionId: BigInt!
+    auctionId: BigInt!
 
-  auction: Auction!
+    auction: Auction!
 }
 
 type Contract_BiddingAllowed implements Event @entity(immutable: true) {
-  id: ID!
-  emitter: User!
-  transaction: Transaction!
-  timestamp: BigInt!
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
 
-  contract: Bytes
-  biddingAllowed: Boolean
+    contract: Bytes
+    biddingAllowed: Boolean
 }
 
 type Auction_StartTimeUpdated implements Event @entity(immutable: true) {
-  id: ID!
-  emitter: User!
-  transaction: Transaction!
-  timestamp: BigInt!
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
 
-  auctionId: BigInt!
-  startTime: BigInt!
-  endTime: BigInt!
+    auctionId: BigInt!
+    startTime: BigInt!
+    endTime: BigInt!
 
-  auction: Auction!
+    auction: Auction!
 }
 
 type Auction_Initialized implements Event @entity(immutable: true) {
-  id: ID!
-  emitter: User!
-  transaction: Transaction!
-  timestamp: BigInt!
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
 
-  auctionId: BigInt!
-  tokenID: BigInt!
-  tokenAmount: BigInt!
-  contractAddress: Bytes!
-  tokenKind: Bytes!
-  presetID: BigInt!
+    auctionId: BigInt!
+    tokenID: BigInt!
+    tokenAmount: BigInt!
+    contractAddress: Bytes!
+    tokenKind: Bytes!
+    presetID: BigInt!
 
-  auction: Auction!
+    auction: Auction!
 }
 
 type Auction_IncentivePaid implements Event @entity(immutable: true) {
-  id: ID!
-  emitter: User!
-  transaction: Transaction!
-  timestamp: BigInt!
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
 
-  auctionId: BigInt!
-  earner: Bytes!
-  incentiveAmount: BigInt!
+    auctionId: BigInt!
+    earner: Bytes!
+    incentiveAmount: BigInt!
 
-  auction: Auction!
+    auction: Auction!
 }
 
 type Auction_EndTimeUpdated implements Event @entity(immutable: true) {
-  id: ID!
-  emitter: User!
-  transaction: Transaction!
-  timestamp: BigInt!
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
 
-  auctionId: BigInt!
-  endTime: BigInt!
+    auctionId: BigInt!
+    endTime: BigInt!
 
-  auction: Auction!
+    auction: Auction!
 }
 
 type Auction_BidRemoved implements Event @entity(immutable: true) {
-  id: ID!
-  emitter: User!
-  transaction: Transaction!
-  timestamp: BigInt!
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
 
-  auctionId: BigInt!
-  bidder: Bytes!
-  bidAmount: BigInt!
+    auctionId: BigInt!
+    bidder: Bytes!
+    bidAmount: BigInt!
 
-  auction: Auction!
+    auction: Auction!
+}
+
+type Auction_BidPlaced implements Event @entity(immutable: true) {
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
+
+    auctionId: BigInt!
+    bidder: Bytes!
+    bidAmount: BigInt!
+
+    auction: Auction!
 }

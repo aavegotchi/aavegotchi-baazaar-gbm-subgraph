@@ -1,8 +1,24 @@
 import { Address, BigInt, log } from "@graphprotocol/graph-ts";
 import {
     Contract,
-    Auction_BidPlaced,
+    Auction_BidPlaced as Auction_BidPlacedEvent,
+    Auction_BidRemoved as Auction_BidRemovedEvent,
+    Auction_EndTimeUpdated as Auction_EndTimeUpdatedEvent,
+    Auction_IncentivePaid as Auction_IncentivePaidEvent,
+    Auction_Initialized as Auction_InitializedEvent,
+    Auction_StartTimeUpdated as Auction_StartTimeUpdatedEvent,
+    Contract_BiddingAllowed as Contract_BiddingAllowedEvent,
+    Auction_ItemClaimed as Auction_ItemClaimedEvent,
+    AuctionCancelled as AuctionCancelledEvent,
+} from "../generated/Contract/Contract";
+import {
+    Auction,
+    Statistic,
+    Incentive,
+    User,
+    Contract as ContractEntity,
     Auction_BidRemoved,
+    Auction_BidPlaced,
     Auction_EndTimeUpdated,
     Auction_IncentivePaid,
     Auction_Initialized,
@@ -10,18 +26,24 @@ import {
     Contract_BiddingAllowed,
     Auction_ItemClaimed,
     AuctionCancelled,
-} from "../generated/Contract/Contract";
-import {
-    Auction,
-    Bid,
-    Statistic,
-    Incentive,
-    User,
-    Contract as ContractEntity,
 } from "../generated/schema";
 import { getOrCreateBid, getOrCreateUser } from "./helper";
+import { events, transactions } from "@amxx/graphprotocol-utils";
 
-export function handleAuction_BidPlaced(event: Auction_BidPlaced): void {
+export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
+    // event
+    let ev = new Auction_BidPlaced(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionID;
+    ev.bidder = event.params._bidder;
+    ev.bidAmount = event.params._bidAmount;
+
+    ev.auction = event.params._auctionID.toString();
+    ev.save();
+
     //Auction
     log.warning("handleAuction_BidPlaced, auctionId = {}", [
         event.params._auctionID.toString(),
@@ -56,7 +78,20 @@ export function handleAuction_BidPlaced(event: Auction_BidPlaced): void {
     bid.save();
 }
 
-export function handleAuction_BidRemoved(event: Auction_BidRemoved): void {
+export function handleAuction_BidRemoved(event: Auction_BidRemovedEvent): void {
+    // event
+    let ev = new Auction_BidRemoved(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionID;
+    ev.bidder = event.params._bidder;
+    ev.bidAmount = event.params._bidAmount;
+
+    ev.auction = event.params._auctionID.toString();
+    ev.save();
+
     let auction = Auction.load(event.params._auctionID.toString());
     if (!auction) {
         log.warning("auction with id {} not found", [
@@ -81,8 +116,20 @@ export function handleAuction_BidRemoved(event: Auction_BidRemoved): void {
 }
 
 export function handleAuction_EndTimeUpdated(
-    event: Auction_EndTimeUpdated
+    event: Auction_EndTimeUpdatedEvent
 ): void {
+    // event
+    let ev = new Auction_EndTimeUpdated(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionID;
+    ev.endTime = event.params._endTime;
+
+    ev.auction = event.params._auctionID.toString();
+    ev.save();
+
     let entity = Auction.load(event.params._auctionID.toString());
     if (!entity) {
         log.warning("auction with id {} not found", [
@@ -95,8 +142,21 @@ export function handleAuction_EndTimeUpdated(
 }
 
 export function handleAuction_IncentivePaid(
-    event: Auction_IncentivePaid
+    event: Auction_IncentivePaidEvent
 ): void {
+    // event
+    let ev = new Auction_IncentivePaid(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionID;
+    ev.earner = event.params._earner;
+    ev.incentiveAmount = event.params._incentiveAmount;
+
+    ev.auction = event.params._auctionID.toString();
+    ev.save();
+
     let incentiveId =
         event.params._auctionID.toString() +
         "_" +
@@ -136,7 +196,25 @@ export function handleAuction_IncentivePaid(
     incentive.save();
 }
 
-export function handleAuction_Initialized(event: Auction_Initialized): void {
+export function handleAuction_Initialized(
+    event: Auction_InitializedEvent
+): void {
+    // event
+    let ev = new Auction_Initialized(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionID;
+    ev.contractAddress = event.params._contractAddress;
+    ev.presetID = event.params._presetID;
+    ev.tokenAmount = event.params._tokenAmount;
+    ev.tokenID = event.params._tokenID;
+    ev.tokenKind = event.params._tokenKind;
+
+    ev.auction = event.params._auctionID.toString();
+    ev.save();
+
     //Update statistics
     let statistics = Statistic.load("0");
     if (statistics == null) {
@@ -197,7 +275,7 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
         auctionInfo.auctionDebt;
         auctionInfo.biddingAllowed;
         auction.claimed = auctionInfo.claimed;
-        
+
         let presets = auctionInfo.presets;
         auction.bidDecimals = presets.bidDecimals;
         auction.bidMultiplier = presets.bidMultiplier;
@@ -235,8 +313,23 @@ export function handleAuction_Initialized(event: Auction_Initialized): void {
 }
 
 export function handleAuction_StartTimeUpdated(
-    event: Auction_StartTimeUpdated
+    event: Auction_StartTimeUpdatedEvent
 ): void {
+    // event
+    let ev = new Auction_StartTimeUpdated(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionID;
+
+    ev.endTime = event.params._endTime;
+    ev.startTime = event.params._startTime;
+
+    ev.auction = event.params._auctionID.toString();
+    ev.save();
+
+    // update entity
     let entity = Auction.load(event.params._auctionID.toString());
     if (!entity) {
         log.warning("auction with id {} not found", [
@@ -251,8 +344,20 @@ export function handleAuction_StartTimeUpdated(
 }
 
 export function handleContract_BiddingAllowed(
-    event: Contract_BiddingAllowed
+    event: Contract_BiddingAllowedEvent
 ): void {
+    // event
+    let ev = new Contract_BiddingAllowed(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.contract = event.params._contract;
+    ev.biddingAllowed = event.params._biddingAllowed;
+
+    ev.save();
+
+    // update entity
     let entity = ContractEntity.load(event.params._contract.toHexString());
     if (entity == null) {
         entity = new ContractEntity(event.params._contract.toHexString());
@@ -261,7 +366,21 @@ export function handleContract_BiddingAllowed(
     entity.save();
 }
 
-export function handleAuction_ItemClaimed(event: Auction_ItemClaimed): void {
+export function handleAuction_ItemClaimed(
+    event: Auction_ItemClaimedEvent
+): void {
+    // event
+    let ev = new Auction_ItemClaimed(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionID;
+
+    ev.auction = event.params._auctionID.toString();
+    ev.save();
+
+    // update entity
     let auction = Auction.load(event.params._auctionID.toString());
     if (!auction) {
         log.warning("auction with id {} not found", [
@@ -289,7 +408,20 @@ export function handleAuction_ItemClaimed(event: Auction_ItemClaimed): void {
     auction.save();
 }
 
-export function handleAuctionCancelled(event: AuctionCancelled): void {
+export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
+    // event
+    let ev = new AuctionCancelled(events.id(event));
+    ev.emitter = event.transaction.from;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionId;
+    ev.tokenId = event.params._tokenId;
+
+    ev.auction = event.params._auctionId.toString();
+    ev.save();
+
+    // update entity
     let auction = Auction.load(event.params._auctionId.toString());
     if (!auction) {
         log.warning("auction with id {} not found", [

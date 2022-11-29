@@ -45,9 +45,9 @@ export function getOrCreateBid(
 }
 
 export function getOrCreateUser(address: Bytes): User {
-    let user = User.load(address.toHexString());
+    let user = User.load(address);
     if (user == null) {
-        user = new User(address.toHexString());
+        user = new User(address);
         user.bids = BigInt.fromI32(0);
         user.bidAmount = BigInt.fromI32(0);
         user.outbids = BigInt.fromI32(0);
