@@ -50,7 +50,7 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     ev.bidder = event.params._bidder;
     ev.bidAmount = event.params._bidAmount;
 
-    ev.auction = event.params._auctionID.toString();
+    // ev.auction = event.params._auctionID.toString();
     ev.save();
 
     //Auction
@@ -102,7 +102,7 @@ export function handleAuction_BidRemoved(event: Auction_BidRemovedEvent): void {
     ev.bidder = event.params._bidder;
     ev.bidAmount = event.params._bidAmount;
 
-    ev.auction = event.params._auctionID.toString();
+    // ev.auction = event.params._auctionID.toString();
     ev.save();
 
     let auction = Auction.load(event.params._auctionID.toString());
@@ -144,7 +144,7 @@ export function handleAuction_EndTimeUpdated(
     ev.auctionId = event.params._auctionID;
     ev.endTime = event.params._endTime;
 
-    ev.auction = event.params._auctionID.toString();
+    // ev.auction = event.params._auctionID.toString();
     ev.save();
 
     let entity = Auction.load(event.params._auctionID.toString());
@@ -175,7 +175,7 @@ export function handleAuction_IncentivePaid(
     ev.earner = event.params._earner;
     ev.incentiveAmount = event.params._incentiveAmount;
 
-    ev.auction = event.params._auctionID.toString();
+    // ev.auction = event.params._auctionID.toString();
     ev.save();
 
     let auction = Auction.load(event.params._auctionID.toString());
@@ -223,7 +223,7 @@ export function handleAuction_Initialized(
     ev.tokenID = event.params._tokenID;
     ev.tokenKind = event.params._tokenKind;
 
-    ev.auction = event.params._auctionID.toString();
+    // ev.auction = event.params._auctionID.toString();
     ev.save();
 
     //Update statistics
@@ -341,7 +341,7 @@ export function handleAuction_StartTimeUpdated(
     ev.endTime = event.params._endTime;
     ev.startTime = event.params._startTime;
 
-    ev.auction = event.params._auctionID.toString();
+    // ev.auction = event.params._auctionID.toString();
     ev.save();
 
     // update entity
@@ -400,7 +400,7 @@ export function handleAuction_ItemClaimed(
 
     ev.auctionId = event.params._auctionID;
 
-    ev.auction = event.params._auctionID.toString();
+    // ev.auction = event.params._auctionID.toString();
     ev.save();
 
     // update entity
@@ -445,7 +445,7 @@ export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
     ev.auctionId = event.params._auctionId;
     ev.tokenId = event.params._tokenId;
 
-    ev.auction = event.params._auctionId.toString();
+    // ev.auction = event.params._auctionId.toString();
     ev.save();
 
     // update entity
