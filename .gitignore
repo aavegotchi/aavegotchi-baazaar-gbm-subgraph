@@ -2,3 +2,5 @@ node_modules/
 build/
 generated/
 yarn-error.log
+
+.vscode

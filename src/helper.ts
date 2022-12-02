@@ -27,7 +27,7 @@ export function getOrCreateBid(
         bid.bidder = bidder;
         bid.amount = bidAmount;
         bid.auctionID = BigInt.fromString(auction.id);
-        bid.auction = auction.id;
+        // bid.auction = auction.id;
         bid.outbid = false;
         bid.bidTime = event.block.timestamp;
         bid.claimed = false;
@@ -83,7 +83,7 @@ export function getOrCreateAuction(
         let value = result.value;
         auction.bidDecimals = value.presets.bidDecimals;
         auction.bidMultiplier = value.presets.bidMultiplier;
-        auction.bids = [];
+        // auction.bids = [];
         auction.cancelled = false;
         auction.claimed = value.claimed;
         auction.claimAt = BIGINT_ZERO;
@@ -121,7 +121,7 @@ export function getOrCreateIncentive(
         incentive.amount = amount;
         incentive.earner = earner;
         incentive.auctionID = bigInt.fromString(auction.id);
-        incentive.auction = auction.id;
+        // incentive.auction = auction.id;
         incentive.tokenId = auction.tokenId;
         incentive.contractAddress = auction.contractAddress;
         incentive.type = auction.type;

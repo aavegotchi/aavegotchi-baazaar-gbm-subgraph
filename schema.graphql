@@ -31,15 +31,15 @@ type Auction @entity {
     quantity: BigInt
     presetId: Int
     cancelled: Boolean
-    bids: [Bid!]! @derivedFrom(field: "auction")
-    incentives: [Incentive!]! @derivedFrom(field: "auction")
+    # bids: [Bid!]! @derivedFrom(field: "auction")
+    # incentives: [Incentive!]! @derivedFrom(field: "auction")
 }
 
 type Bid @entity {
     id: ID!
     tokenId: BigInt
     auctionID: BigInt
-    auction: Auction
+    # auction: Auction
     auctionOrderId: BigInt
     bidder: Bytes
     amount: BigInt
@@ -62,7 +62,8 @@ type Incentive @entity {
     earner: Bytes!
     amount: BigInt!
     auctionID: BigInt!
-    auction: Auction!
+    # auction: Auction!
+
     receiveTime: BigInt!
     type: String!
 }
@@ -89,7 +90,7 @@ type User @entity {
 
     auctionsAmount: BigInt!
 
-    events: [Event!]! @derivedFrom(field: "emitter")
+    # events: [Event!]! @derivedFrom(field: "emitter")
 }
 
 interface Event {
@@ -114,7 +115,7 @@ type AuctionCancelled implements Event @entity(immutable: true) {
     auctionId: BigInt!
     tokenId: BigInt!
 
-    auction: Auction!
+    # auction: Auction!
 }
 
 type Auction_ItemClaimed implements Event @entity(immutable: true) {
@@ -125,7 +126,7 @@ type Auction_ItemClaimed implements Event @entity(immutable: true) {
 
     auctionId: BigInt!
 
-    auction: Auction!
+    # auction: Auction!
 }
 
 type Contract_BiddingAllowed implements Event @entity(immutable: true) {
@@ -148,7 +149,7 @@ type Auction_StartTimeUpdated implements Event @entity(immutable: true) {
     startTime: BigInt!
     endTime: BigInt!
 
-    auction: Auction!
+    # auction: Auction!
 }
 
 type Auction_Initialized implements Event @entity(immutable: true) {
@@ -164,7 +165,7 @@ type Auction_Initialized implements Event @entity(immutable: true) {
     tokenKind: Bytes!
     presetID: BigInt!
 
-    auction: Auction!
+    # auction: Auction!
 }
 
 type Auction_IncentivePaid implements Event @entity(immutable: true) {
@@ -177,7 +178,7 @@ type Auction_IncentivePaid implements Event @entity(immutable: true) {
     earner: Bytes!
     incentiveAmount: BigInt!
 
-    auction: Auction!
+    # auction: Auction!
 }
 
 type Auction_EndTimeUpdated implements Event @entity(immutable: true) {
@@ -189,7 +190,7 @@ type Auction_EndTimeUpdated implements Event @entity(immutable: true) {
     auctionId: BigInt!
     endTime: BigInt!
 
-    auction: Auction!
+    # auction: Auction!
 }
 
 type Auction_BidRemoved implements Event @entity(immutable: true) {
@@ -202,7 +203,7 @@ type Auction_BidRemoved implements Event @entity(immutable: true) {
     bidder: Bytes!
     bidAmount: BigInt!
 
-    auction: Auction!
+    # auction: Auction!
 }
 
 type Auction_BidPlaced implements Event @entity(immutable: true) {
@@ -215,5 +216,5 @@ type Auction_BidPlaced implements Event @entity(immutable: true) {
     bidder: Bytes!
     bidAmount: BigInt!
 
-    auction: Auction!
+    # auction: Auction!
 }
