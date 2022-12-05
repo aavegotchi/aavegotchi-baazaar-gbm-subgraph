@@ -52,6 +52,8 @@ type Bid @entity {
     contractAddress: Bytes
     claimed: Boolean
     type: String
+
+    bidMultiplier: BigInt!
 }
 
 type Incentive @entity {
@@ -66,6 +68,8 @@ type Incentive @entity {
 
     receiveTime: BigInt!
     type: String!
+
+    bidMultiplier: BigInt!
 }
 
 type Contract @entity {
