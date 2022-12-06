@@ -76,7 +76,9 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     auction.lastBidTime = event.block.timestamp;
     auction.highestBid = event.params._bidAmount;
     auction.highestBidder = event.params._bidder;
-    auction.bidVolume = auction.bidVolume.plus(event.params._bidAmount);
+    auction.totalBidsVolume = auction.totalBidsVolume.plus(
+        event.params._bidAmount
+    );
 
     //Update user
     let user = getOrCreateUser(event.params._bidder);
@@ -85,7 +87,7 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
 
     // Update global Stats
     let stats = Statistic.load("0")!;
-    stats.totalBidVolume = stats.totalBidVolume.plus(event.params._bidAmount);
+    stats.totalBidsVolume = stats.totalBidsVolume.plus(event.params._bidAmount);
     stats.save();
 
     user.save();
@@ -238,8 +240,8 @@ export function handleAuction_Initialized(
         statistics = new Statistic("0");
         statistics.erc721Auctions = BigInt.fromI32(0);
         statistics.erc1155Auctions = BigInt.fromI32(0);
-        statistics.totalBidVolume = BIGINT_ZERO;
-        statistics.totalSaleVolume = BIGINT_ZERO;
+        statistics.totalBidsVolume = BIGINT_ZERO;
+        statistics.totalSalesVolume = BIGINT_ZERO;
     }
 
     let orderId = BigInt.fromI32(0);
@@ -436,7 +438,7 @@ export function handleAuction_ItemClaimed(
 
     // Update Stats
     let stats = Statistic.load("0")!;
-    stats.totalSaleVolume = stats.totalSaleVolume.plus(auction.highestBid);
+    stats.totalSalesVolume = stats.totalSalesVolume.plus(auction.highestBid);
     stats.save();
 
     bid.save();

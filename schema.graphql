@@ -33,7 +33,7 @@ type Auction @entity {
     # bids: [Bid!]! @derivedFrom(field: "auction")
     # incentives: [Incentive!]! @derivedFrom(field: "auction")
 
-    bidVolume: BigInt!
+    totalBidsVolume: BigInt!
 }
 
 type Bid @entity {
@@ -82,8 +82,8 @@ type Statistic @entity {
     id: ID!
     erc1155Auctions: BigInt!
     erc721Auctions: BigInt!
-    totalBidVolume: BigInt!
-    totalSaleVolume: BigInt!
+    totalBidsVolume: BigInt!
+    totalSalesVolume: BigInt!
 }
 
 type User @entity {
