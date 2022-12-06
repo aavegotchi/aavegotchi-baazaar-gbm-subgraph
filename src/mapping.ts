@@ -76,6 +76,7 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     auction.lastBidTime = event.block.timestamp;
     auction.highestBid = event.params._bidAmount;
     auction.highestBidder = event.params._bidder;
+    auction.volume = auction.volume.plus(event.params._bidAmount);
 
     //Update user
     let user = getOrCreateUser(event.params._bidder);

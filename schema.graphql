@@ -33,6 +33,8 @@ type Auction @entity {
     cancelled: Boolean
     # bids: [Bid!]! @derivedFrom(field: "auction")
     # incentives: [Incentive!]! @derivedFrom(field: "auction")
+
+    volume: BigInt!
 }
 
 type Bid @entity {
