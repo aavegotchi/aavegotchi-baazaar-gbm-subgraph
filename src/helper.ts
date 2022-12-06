@@ -90,7 +90,7 @@ export function getOrCreateAuction(
         auction.claimed = value.claimed;
         auction.claimAt = BIGINT_ZERO;
         auction.contractAddress = event.address;
-        // auction.createdAt = event.transaction.
+        auction.volume = BIGINT_ZERO;
     }
 
     return auction;
