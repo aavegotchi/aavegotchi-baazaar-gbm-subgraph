@@ -14,8 +14,6 @@ import {
 import {
     Auction,
     Statistic,
-    Incentive,
-    User,
     Contract as ContractEntity,
     Auction_BidRemoved,
     Auction_BidPlaced,
@@ -29,11 +27,13 @@ import {
     Bid,
 } from "../generated/schema";
 import {
+    getOrCreateAuction,
     getOrCreateBid,
     getOrCreateIncentive,
     getOrCreateUser,
 } from "./helper";
 import { events, transactions } from "@amxx/graphprotocol-utils";
+import { BIGINT_ZERO } from "./constants";
 
 export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     // emitter
@@ -57,7 +57,7 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     log.warning("handleAuction_BidPlaced, auctionId = {}", [
         event.params._auctionID.toString(),
     ]);
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -76,11 +76,19 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     auction.lastBidTime = event.block.timestamp;
     auction.highestBid = event.params._bidAmount;
     auction.highestBidder = event.params._bidder;
+    auction.totalBidsVolume = auction.totalBidsVolume.plus(
+        event.params._bidAmount
+    );
 
     //Update user
     let user = getOrCreateUser(event.params._bidder);
     user.bids = user.bids.plus(BigInt.fromI32(1));
     user.bidAmount = user.bidAmount.plus(event.params._bidAmount);
+
+    // Update global Stats
+    let stats = Statistic.load("0")!;
+    stats.totalBidsVolume = stats.totalBidsVolume.plus(event.params._bidAmount);
+    stats.save();
 
     user.save();
     auction.save();
@@ -105,7 +113,7 @@ export function handleAuction_BidRemoved(event: Auction_BidRemovedEvent): void {
     // ev.auction = event.params._auctionID.toString();
     ev.save();
 
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -147,7 +155,7 @@ export function handleAuction_EndTimeUpdated(
     // ev.auction = event.params._auctionID.toString();
     ev.save();
 
-    let entity = Auction.load(event.params._auctionID.toString());
+    let entity = getOrCreateAuction(event.params._auctionID, event);
     if (!entity) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -178,7 +186,7 @@ export function handleAuction_IncentivePaid(
     // ev.auction = event.params._auctionID.toString();
     ev.save();
 
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -232,6 +240,8 @@ export function handleAuction_Initialized(
         statistics = new Statistic("0");
         statistics.erc721Auctions = BigInt.fromI32(0);
         statistics.erc1155Auctions = BigInt.fromI32(0);
+        statistics.totalBidsVolume = BIGINT_ZERO;
+        statistics.totalSalesVolume = BIGINT_ZERO;
     }
 
     let orderId = BigInt.fromI32(0);
@@ -253,7 +263,7 @@ export function handleAuction_Initialized(
     }
     statistics.save();
 
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
 
     if (auction == null) {
         auction = new Auction(event.params._auctionID.toString());
@@ -345,7 +355,7 @@ export function handleAuction_StartTimeUpdated(
     ev.save();
 
     // update entity
-    let entity = Auction.load(event.params._auctionID.toString());
+    let entity = getOrCreateAuction(event.params._auctionID, event);
     if (!entity) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -404,7 +414,7 @@ export function handleAuction_ItemClaimed(
     ev.save();
 
     // update entity
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -424,8 +434,12 @@ export function handleAuction_ItemClaimed(
 
     let user = getOrCreateUser(auction.highestBidder);
     user.wins = user.wins.plus(BigInt.fromI32(1));
-
     user.save();
+
+    // Update Stats
+    let stats = Statistic.load("0")!;
+    stats.totalSalesVolume = stats.totalSalesVolume.plus(auction.highestBid);
+    stats.save();
 
     bid.save();
     auction.save();
@@ -449,7 +463,7 @@ export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
     ev.save();
 
     // update entity
-    let auction = Auction.load(event.params._auctionId.toString());
+    let auction = getOrCreateAuction(event.params._auctionId, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionId.toString(),
