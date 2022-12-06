@@ -29,6 +29,7 @@ import {
     Bid,
 } from "../generated/schema";
 import {
+    getOrCreateAuction,
     getOrCreateBid,
     getOrCreateIncentive,
     getOrCreateUser,
@@ -57,7 +58,7 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     log.warning("handleAuction_BidPlaced, auctionId = {}", [
         event.params._auctionID.toString(),
     ]);
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -106,7 +107,7 @@ export function handleAuction_BidRemoved(event: Auction_BidRemovedEvent): void {
     // ev.auction = event.params._auctionID.toString();
     ev.save();
 
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -148,7 +149,7 @@ export function handleAuction_EndTimeUpdated(
     // ev.auction = event.params._auctionID.toString();
     ev.save();
 
-    let entity = Auction.load(event.params._auctionID.toString());
+    let entity = getOrCreateAuction(event.params._auctionID, event);
     if (!entity) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -179,7 +180,7 @@ export function handleAuction_IncentivePaid(
     // ev.auction = event.params._auctionID.toString();
     ev.save();
 
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -254,7 +255,7 @@ export function handleAuction_Initialized(
     }
     statistics.save();
 
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
 
     if (auction == null) {
         auction = new Auction(event.params._auctionID.toString());
@@ -346,7 +347,7 @@ export function handleAuction_StartTimeUpdated(
     ev.save();
 
     // update entity
-    let entity = Auction.load(event.params._auctionID.toString());
+    let entity = getOrCreateAuction(event.params._auctionID, event);
     if (!entity) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -405,7 +406,7 @@ export function handleAuction_ItemClaimed(
     ev.save();
 
     // update entity
-    let auction = Auction.load(event.params._auctionID.toString());
+    let auction = getOrCreateAuction(event.params._auctionID, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -450,7 +451,7 @@ export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
     ev.save();
 
     // update entity
-    let auction = Auction.load(event.params._auctionId.toString());
+    let auction = getOrCreateAuction(event.params._auctionId, event);
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionId.toString(),
