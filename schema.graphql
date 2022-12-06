@@ -11,7 +11,6 @@ type Auction @entity {
     claimed: Boolean!
 
     #Auction Settings
-    # dueIncentives: BigInt
     hammerTimeDuration: BigInt!
     bidDecimals: BigInt!
     stepMin: BigInt!
@@ -34,7 +33,7 @@ type Auction @entity {
     # bids: [Bid!]! @derivedFrom(field: "auction")
     # incentives: [Incentive!]! @derivedFrom(field: "auction")
 
-    volume: BigInt!
+    bidVolume: BigInt!
 }
 
 type Bid @entity {
@@ -83,6 +82,8 @@ type Statistic @entity {
     id: ID!
     erc1155Auctions: BigInt!
     erc721Auctions: BigInt!
+    totalBidVolume: BigInt!
+    totalSaleVolume: BigInt!
 }
 
 type User @entity {

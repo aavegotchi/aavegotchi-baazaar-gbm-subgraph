@@ -14,8 +14,6 @@ import {
 import {
     Auction,
     Statistic,
-    Incentive,
-    User,
     Contract as ContractEntity,
     Auction_BidRemoved,
     Auction_BidPlaced,
@@ -35,6 +33,7 @@ import {
     getOrCreateUser,
 } from "./helper";
 import { events, transactions } from "@amxx/graphprotocol-utils";
+import { BIGINT_ZERO } from "./constants";
 
 export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     // emitter
@@ -77,12 +76,17 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     auction.lastBidTime = event.block.timestamp;
     auction.highestBid = event.params._bidAmount;
     auction.highestBidder = event.params._bidder;
-    auction.volume = auction.volume.plus(event.params._bidAmount);
+    auction.bidVolume = auction.bidVolume.plus(event.params._bidAmount);
 
     //Update user
     let user = getOrCreateUser(event.params._bidder);
     user.bids = user.bids.plus(BigInt.fromI32(1));
     user.bidAmount = user.bidAmount.plus(event.params._bidAmount);
+
+    // Update global Stats
+    let stats = Statistic.load("0")!;
+    stats.totalBidVolume = stats.totalBidVolume.plus(event.params._bidAmount);
+    stats.save();
 
     user.save();
     auction.save();
@@ -234,6 +238,8 @@ export function handleAuction_Initialized(
         statistics = new Statistic("0");
         statistics.erc721Auctions = BigInt.fromI32(0);
         statistics.erc1155Auctions = BigInt.fromI32(0);
+        statistics.totalBidVolume = BIGINT_ZERO;
+        statistics.totalSaleVolume = BIGINT_ZERO;
     }
 
     let orderId = BigInt.fromI32(0);
@@ -426,8 +432,12 @@ export function handleAuction_ItemClaimed(
 
     let user = getOrCreateUser(auction.highestBidder);
     user.wins = user.wins.plus(BigInt.fromI32(1));
-
     user.save();
+
+    // Update Stats
+    let stats = Statistic.load("0")!;
+    stats.totalSaleVolume = stats.totalSaleVolume.plus(auction.highestBid);
+    stats.save();
 
     bid.save();
     auction.save();
