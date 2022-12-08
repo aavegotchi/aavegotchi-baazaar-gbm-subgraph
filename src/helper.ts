@@ -47,6 +47,7 @@ export function getOrCreateBid(
         bid.auctionEndTime = auction.endsAt;
 
         bid.bidMultiplier = auction.bidMultiplier;
+        bid.auctionCreatedAt = auction.createdAt!;
     }
 
     return bid as Bid;
@@ -131,6 +132,7 @@ export function getOrCreateIncentive(
         incentive.receiveTime = event.block.timestamp;
 
         incentive.bidMultiplier = auction.bidMultiplier;
+        incentive.auctionCreatedAt = auction.createdAt!;
     }
 
     return incentive;
