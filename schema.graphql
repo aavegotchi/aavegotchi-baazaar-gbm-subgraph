@@ -55,6 +55,7 @@ type Bid @entity {
     type: String
 
     bidMultiplier: BigInt!
+    auctionCreatedAt: BigInt!
 }
 
 type Incentive @entity {
@@ -71,6 +72,7 @@ type Incentive @entity {
     type: String!
 
     bidMultiplier: BigInt!
+    auctionCreatedAt: BigInt!
 }
 
 type Contract @entity {
