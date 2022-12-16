@@ -33,7 +33,7 @@ import {
     getOrCreateUser,
 } from "./helper";
 import { events, transactions } from "@amxx/graphprotocol-utils";
-import { BIGINT_ZERO } from "./constants";
+import { BIGINT_ONE, BIGINT_ZERO } from "./constants";
 
 export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     // emitter
@@ -216,7 +216,6 @@ export function handleAuction_Initialized(
 ): void {
     // emitter
     let emitter = getOrCreateUser(event.transaction.from);
-    emitter.save();
 
     // event
     let ev = new Auction_Initialized(events.id(event));
@@ -273,6 +272,7 @@ export function handleAuction_Initialized(
     auction.type = type;
     auction.contractAddress = event.params._contractAddress;
     auction.tokenId = event.params._tokenID;
+    auction.presetId = event.params._presetID.toI32();
     auction.totalBids = BigInt.fromI32(0);
     auction.claimed = false;
     auction.lastBidTime = BigInt.fromI32(0);
@@ -331,6 +331,10 @@ export function handleAuction_Initialized(
     }
 
     contractEntity.save();
+    emitter.totalAuctionsCreated = emitter.totalAuctionsCreated.plus(
+        BIGINT_ONE
+    );
+    emitter.save();
 }
 
 export function handleAuction_StartTimeUpdated(
