@@ -49,13 +49,14 @@ type Bid @entity {
     previousBid: BigInt
     previousBidder: Bytes
     auctionTimeLeft: BigInt
-    auctionEndTime: BigInt
+    auctionEndTime: BigInt # timestamp when auction is supposed to end
     contractAddress: Bytes
     claimed: Boolean
     type: String
 
     bidMultiplier: BigInt!
-    auctionCreatedAt: BigInt!
+    auctionCreatedAt: BigInt! # timestamp when auction was created
+    presetId: Int
 }
 
 type Incentive @entity {
@@ -72,7 +73,9 @@ type Incentive @entity {
     type: String!
 
     bidMultiplier: BigInt!
-    auctionCreatedAt: BigInt!
+
+    auctionCreatedAt: BigInt! # timestamp of when auction was created
+    presetId: Int
 }
 
 type Contract @entity {
@@ -97,7 +100,7 @@ type User @entity {
     payoutAmount: BigInt! #cumulative amount of payouts in GHST
     wins: BigInt!
 
-    auctionsAmount: BigInt!
+    totalAuctionsCreated: BigInt!
 
     # events: [Event!]! @derivedFrom(field: "emitter")
 }
