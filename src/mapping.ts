@@ -33,7 +33,11 @@ import {
     getOrCreateUser,
 } from "./helper";
 import { events, transactions } from "@amxx/graphprotocol-utils";
-import { BIGINT_ONE, BIGINT_ZERO } from "./constants";
+import {
+    BIGINT_CANCELLATION_PERIOD_IN_SECONDS,
+    BIGINT_ONE,
+    BIGINT_ZERO,
+} from "./constants";
 
 export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     // emitter
@@ -163,6 +167,7 @@ export function handleAuction_EndTimeUpdated(
         return;
     }
     entity.endsAt = event.params._endTime;
+    entity.cancellationPeriodDuration = BIGINT_CANCELLATION_PERIOD_IN_SECONDS;
     entity.save();
 }
 
@@ -316,6 +321,7 @@ export function handleAuction_Initialized(
 
         // auction.claimAt =
         auction.highestBidder = auctionInfo.highestBidder;
+        auction.cancellationPeriodDuration = BIGINT_CANCELLATION_PERIOD_IN_SECONDS;
     }
 
     auction.save();
@@ -475,6 +481,7 @@ export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
         return;
     }
 
+    auction.cancellationTime = event.block.timestamp;
     auction.cancelled = true;
     auction.save();
 }
