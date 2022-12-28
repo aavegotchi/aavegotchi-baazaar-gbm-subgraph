@@ -177,7 +177,7 @@ export function calculateIncentives(
 export function updateProceeds(auction: Auction): Auction {
     const BIGINT_THOUSAND = BigInt.fromI32(1000);
     const BIGINT_HUNDRED = BigInt.fromI32(1000);
-    const proceeds = auction.highestBid.minus(auction.auctionDebt);
+    const proceeds = auction.highestBid;
     const pixelcraftShare = proceeds
         .times(BigInt.fromI32(15))
         .div(BIGINT_THOUSAND);
