@@ -11,7 +11,7 @@ import {
     Contract,
 } from "../generated/Contract/Contract";
 import { Auction, Bid, Incentive, User } from "../generated/schema";
-import { BIGINT_ZERO } from "./constants";
+import { BIGINT_ONE, BIGINT_ZERO } from "./constants";
 
 export function getOrCreateBid(
     bidder: Bytes,
@@ -138,4 +138,58 @@ export function getOrCreateIncentive(
     }
 
     return incentive;
+}
+
+/// @notice Calculating and setting how much payout a bidder will receive if outbid
+/// @dev Only callable internally
+export function calculateIncentives(
+    auction: Auction,
+    _newBidValue: BigInt
+): BigInt {
+    const bidDecimals = auction.bidDecimals;
+    const bidIncMax = auction.incMax;
+
+    //Init the baseline bid we need to perform against
+    let baseBid = auction.highestBid
+        .times(bidDecimals.plus(auction.stepMin))
+        .div(bidDecimals);
+
+    //If no bids are present, set a basebid value of 1 to prevent divide by 0 errors
+    if (baseBid.equals(BIGINT_ZERO)) {
+        baseBid = BIGINT_ONE;
+    }
+
+    //Ratio of newBid compared to expected minBid
+    let decimaledRatio = bidDecimals
+        .times(auction.bidMultiplier)
+        .times(_newBidValue.minus(baseBid))
+        .div(baseBid.plus(auction.incMin).times(bidDecimals));
+
+    if (decimaledRatio.gt(bidDecimals.times(bidIncMax))) {
+        decimaledRatio = bidDecimals.times(bidIncMax);
+    }
+
+    return _newBidValue
+        .times(decimaledRatio)
+        .div(bidDecimals.times(bidDecimals));
+}
+
+export function updateProceeds(auction: Auction): Auction {
+    const BIGINT_THOUSAND = BigInt.fromI32(1000);
+    const BIGINT_HUNDRED = BigInt.fromI32(1000);
+    const proceeds = auction.highestBid.minus(auction.auctionDebt);
+    const pixelcraftShare = proceeds
+        .times(BigInt.fromI32(15))
+        .div(BIGINT_THOUSAND);
+    const gbmShare = proceeds.times(BIGINT_ONE).div(BIGINT_HUNDRED);
+    const daoShare = proceeds.times(BigInt.fromI32(5)).div(BIGINT_THOUSAND);
+    const treasuryShare = proceeds.times(BIGINT_ONE).div(BIGINT_HUNDRED);
+
+    auction.platformFees = pixelcraftShare.plus(daoShare).plus(treasuryShare);
+    auction.gbmFees = gbmShare;
+    auction.sellerProceeds = proceeds.minus(
+        auction.platformFees.plus(auction.gbmFees)
+    );
+
+    return auction;
 }

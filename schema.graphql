@@ -37,6 +37,11 @@ type Auction @entity {
 
     cancellationPeriodDuration: BigInt!
     cancellationTime: BigInt
+
+    auctionDebt: BigInt!
+    sellerProceeds: BigInt!
+    platformFees: BigInt!
+    gbmFees: BigInt!
 }
 
 type Bid @entity {
