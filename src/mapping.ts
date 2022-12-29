@@ -27,10 +27,12 @@ import {
     Bid,
 } from "../generated/schema";
 import {
+    calculateIncentives,
     getOrCreateAuction,
     getOrCreateBid,
     getOrCreateIncentive,
     getOrCreateUser,
+    updateProceeds,
 } from "./helper";
 import { events, transactions } from "@amxx/graphprotocol-utils";
 import {
@@ -83,6 +85,13 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     auction.totalBidsVolume = auction.totalBidsVolume.plus(
         event.params._bidAmount
     );
+
+    auction.dueIncentives = calculateIncentives(
+        auction,
+        event.params._bidAmount
+    );
+
+    auction = updateProceeds(auction);
 
     //Update user
     let user = getOrCreateUser(event.params._bidder);
@@ -191,7 +200,13 @@ export function handleAuction_IncentivePaid(
     // ev.auction = event.params._auctionID.toString();
     ev.save();
 
+    // updated auction debt
     let auction = getOrCreateAuction(event.params._auctionID, event);
+    auction.auctionDebt = auction.auctionDebt.plus(
+        event.params._incentiveAmount
+    );
+    auction.save();
+
     if (!auction) {
         log.warning("auction with id {} not found", [
             event.params._auctionID.toString(),
@@ -298,7 +313,7 @@ export function handleAuction_Initialized(
     if (!result.reverted && !resultHammerTime.reverted) {
         let auctionInfo = result.value;
 
-        auctionInfo.auctionDebt;
+        auction.auctionDebt = auctionInfo.auctionDebt;
         auctionInfo.biddingAllowed;
         auction.claimed = auctionInfo.claimed;
 
@@ -322,6 +337,8 @@ export function handleAuction_Initialized(
         // auction.claimAt =
         auction.highestBidder = auctionInfo.highestBidder;
         auction.cancellationPeriodDuration = BIGINT_CANCELLATION_PERIOD_IN_SECONDS;
+
+        auction = updateProceeds(auction);
     }
 
     auction.save();
