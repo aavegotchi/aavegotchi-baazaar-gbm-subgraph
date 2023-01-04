@@ -181,16 +181,13 @@ export function updateProceeds(auction: Auction): Auction {
     // 0,005 of proceeds => 0,5% => 0,1 of 20ghst
     const zeroFivePct = proceeds.div(BigInt.fromI32(200));
 
-    // 1% => 0,2 of 20ghst
+    // 1% to gbm
     const gbmShare = zeroFivePct.times(BigInt.fromI32(2));
-
-    // 1,5% => 0,3 of 20ghst
-    const pixelcraftShare = zeroFivePct.times(BigInt.fromI32(3));
-
-    // 0,5% => 0,2 of 20 ghst
-    const daoShare = zeroFivePct.times(BigInt.fromI32(1));
-
-    // 1% => 0,2 of 20 ghst
+    // 0,5% to pixelcraft
+    const pixelcraftShare = zeroFivePct.times(BIGINT_ONE);
+    // 1,5% to dao
+    const daoShare = zeroFivePct.times(BigInt.fromI32(3));
+    // 1% to treasury
     const treasuryShare = zeroFivePct.times(BigInt.fromI32(2));
 
     auction.platformFees = pixelcraftShare.plus(daoShare).plus(treasuryShare);
