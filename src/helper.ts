@@ -178,7 +178,7 @@ export function calculateIncentives(
 export function updateProceeds(auction: Auction): Auction {
     const proceeds = auction.highestBid;
 
-    // 0,005 of proceeds => 0,5% => 0,1 of 20ghst
+    // 0,5%
     const zeroFivePct = proceeds.div(BigInt.fromI32(200));
 
     // 1% to gbm
