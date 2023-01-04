@@ -175,15 +175,24 @@ export function calculateIncentives(
 }
 
 export function updateProceeds(auction: Auction): Auction {
-    const BIGINT_THOUSAND = BigInt.fromI32(1000);
-    const BIGINT_HUNDRED = BigInt.fromI32(1000);
     const proceeds = auction.highestBid;
-    const pixelcraftShare = proceeds
-        .times(BigInt.fromI32(15))
-        .div(BIGINT_THOUSAND);
-    const gbmShare = proceeds.times(BIGINT_ONE).div(BIGINT_HUNDRED);
-    const daoShare = proceeds.times(BigInt.fromI32(5)).div(BIGINT_THOUSAND);
-    const treasuryShare = proceeds.times(BIGINT_ONE).div(BIGINT_HUNDRED);
+
+    // 0,005 of proceeds => 0,5% => 0,1 of 20ghst
+    const zeroFivePct = proceeds.div(BigInt.fromI32(200));
+
+    // 1% => 0,2 of 20ghst
+    const gbmShare = proceeds.times(zeroFivePct.times(BigInt.fromI32(2)));
+
+    // 1,5% => 0,3 of 20ghst
+    const pixelcraftShare = proceeds.times(
+        zeroFivePct.times(BigInt.fromI32(3))
+    );
+
+    // 0,5% => 0,2 of 20 ghst
+    const daoShare = proceeds.times(zeroFivePct.times(BigInt.fromI32(1)));
+
+    // 1% => 0,2 of 20 ghst
+    const treasuryShare = proceeds.times(zeroFivePct.times(BigInt.fromI32(2)));
 
     auction.platformFees = pixelcraftShare.plus(daoShare).plus(treasuryShare);
     auction.gbmFees = gbmShare;
