@@ -504,4 +504,10 @@ export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
     auction.save();
 }
 
-export function handleContract_RoyaltyPaid(event: RoyaltyPaidEvent): void {}
+export function handleContract_RoyaltyPaid(event: RoyaltyPaidEvent): void {
+    // update fees
+    let auction = getOrCreateAuction(event.params._auctionId, event);
+    auction.royaltyFees = auction.royaltyFees.plus(event.params._amount);
+    auction = updateProceeds(auction);
+    auction.save();
+}
