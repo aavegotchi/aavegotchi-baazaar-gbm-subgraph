@@ -93,6 +93,7 @@ export function getOrCreateAuction(
         auction.claimAt = BIGINT_ZERO;
         auction.contractAddress = event.address;
         auction.totalBidsVolume = BIGINT_ZERO;
+        auction.royaltyFees = BIGINT_ZERO;
     }
 
     return auction;
@@ -175,21 +176,27 @@ export function calculateIncentives(
 }
 
 export function updateProceeds(auction: Auction): Auction {
-    const BIGINT_THOUSAND = BigInt.fromI32(1000);
-    const BIGINT_HUNDRED = BigInt.fromI32(1000);
     const proceeds = auction.highestBid;
-    const pixelcraftShare = proceeds
-        .times(BigInt.fromI32(15))
-        .div(BIGINT_THOUSAND);
-    const gbmShare = proceeds.times(BIGINT_ONE).div(BIGINT_HUNDRED);
-    const daoShare = proceeds.times(BigInt.fromI32(5)).div(BIGINT_THOUSAND);
-    const treasuryShare = proceeds.times(BIGINT_ONE).div(BIGINT_HUNDRED);
+
+    // 0,5%
+    const zeroFivePct = proceeds.div(BigInt.fromI32(200));
+
+    // 1% to gbm
+    const gbmShare = zeroFivePct.times(BigInt.fromI32(2));
+    // 0,5% to pixelcraft
+    const pixelcraftShare = zeroFivePct.times(BIGINT_ONE);
+    // 1,5% to dao
+    const daoShare = zeroFivePct.times(BigInt.fromI32(3));
+    // 1% to treasury
+    const treasuryShare = zeroFivePct.times(BigInt.fromI32(2));
 
     auction.platformFees = pixelcraftShare.plus(daoShare).plus(treasuryShare);
     auction.gbmFees = gbmShare;
-    auction.sellerProceeds = proceeds.minus(
-        auction.platformFees.plus(auction.gbmFees)
-    );
+    auction.sellerProceeds = proceeds
+        .minus(auction.auctionDebt)
+        .minus(auction.platformFees)
+        .minus(auction.gbmFees)
+        .minus(auction.royaltyFees);
 
     return auction;
 }

@@ -10,6 +10,7 @@ import {
     Contract_BiddingAllowed as Contract_BiddingAllowedEvent,
     Auction_ItemClaimed as Auction_ItemClaimedEvent,
     AuctionCancelled as AuctionCancelledEvent,
+    RoyaltyPaid as RoyaltyPaidEvent,
 } from "../generated/Contract/Contract";
 import {
     Auction,
@@ -500,5 +501,13 @@ export function handleAuctionCancelled(event: AuctionCancelledEvent): void {
 
     auction.cancellationTime = event.block.timestamp;
     auction.cancelled = true;
+    auction.save();
+}
+
+export function handleContract_RoyaltyPaid(event: RoyaltyPaidEvent): void {
+    // update fees
+    let auction = getOrCreateAuction(event.params._auctionId, event);
+    auction.royaltyFees = auction.royaltyFees.plus(event.params._amount);
+    auction = updateProceeds(auction);
     auction.save();
 }

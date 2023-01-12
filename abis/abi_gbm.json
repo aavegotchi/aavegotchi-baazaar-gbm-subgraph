@@ -120,7 +120,11 @@
     ],
     "name": "facetAddress",
     "outputs": [
-      { "internalType": "address", "name": "facetAddress_", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "facetAddress_",
+        "type": "address"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -180,7 +184,11 @@
   },
   {
     "inputs": [
-      { "internalType": "bytes4", "name": "_interfaceId", "type": "bytes4" }
+      {
+        "internalType": "bytes4",
+        "name": "_interfaceId",
+        "type": "bytes4"
+      }
     ],
     "name": "supportsInterface",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
@@ -192,7 +200,11 @@
   { "inputs": [], "name": "AuctionExists", "type": "error" },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "timeToEnd", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "timeToEnd",
+        "type": "uint256"
+      }
     ],
     "name": "AuctionNotEnded",
     "type": "error"
@@ -202,7 +214,11 @@
   { "inputs": [], "name": "CancellationTimeExceeded", "type": "error" },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "claimAvailable", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "claimAvailable",
+        "type": "uint256"
+      }
     ],
     "name": "ClaimNotReady",
     "type": "error"
@@ -495,7 +511,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "cancelAuction",
     "outputs": [],
@@ -504,7 +524,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "claim",
     "outputs": [],
@@ -513,15 +537,31 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" },
-      { "internalType": "uint256", "name": "_bidAmount", "type": "uint256" },
-      { "internalType": "uint256", "name": "_highestBid", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_bidAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_highestBid",
+        "type": "uint256"
+      },
       {
         "internalType": "address",
         "name": "_tokenContract",
         "type": "address"
       },
-      { "internalType": "uint256", "name": "_tokenID", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_tokenID",
+        "type": "uint256"
+      },
       { "internalType": "uint256", "name": "_amount", "type": "uint256" },
       { "internalType": "bytes", "name": "_signature", "type": "bytes" }
     ],
@@ -534,16 +574,36 @@
     "inputs": [
       {
         "components": [
-          { "internalType": "uint80", "name": "startTime", "type": "uint80" },
-          { "internalType": "uint80", "name": "endTime", "type": "uint80" },
-          { "internalType": "uint56", "name": "tokenAmount", "type": "uint56" },
+          {
+            "internalType": "uint80",
+            "name": "startTime",
+            "type": "uint80"
+          },
+          {
+            "internalType": "uint80",
+            "name": "endTime",
+            "type": "uint80"
+          },
+          {
+            "internalType": "uint56",
+            "name": "tokenAmount",
+            "type": "uint56"
+          },
           {
             "internalType": "uint8",
             "name": "gotchiCategory",
             "type": "uint8"
           },
-          { "internalType": "bytes4", "name": "tokenKind", "type": "bytes4" },
-          { "internalType": "uint256", "name": "tokenID", "type": "uint256" }
+          {
+            "internalType": "bytes4",
+            "name": "tokenKind",
+            "type": "bytes4"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenID",
+            "type": "uint256"
+          }
         ],
         "internalType": "struct InitiatorInfo",
         "name": "_info",
@@ -567,7 +627,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionBidDecimals",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -576,7 +640,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionBidMultiplier",
     "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
@@ -585,7 +653,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionDebt",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -594,7 +666,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionDueIncentives",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -603,7 +679,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionEndTime",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -619,7 +699,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionHighestBid",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -628,7 +712,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionHighestBidder",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -637,7 +725,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionIncMax",
     "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
@@ -646,7 +738,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionIncMin",
     "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
@@ -655,27 +751,51 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionInfo",
     "outputs": [
       {
         "components": [
-          { "internalType": "address", "name": "owner", "type": "address" },
-          { "internalType": "uint96", "name": "highestBid", "type": "uint96" },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "uint96",
+            "name": "highestBid",
+            "type": "uint96"
+          },
           {
             "internalType": "address",
             "name": "highestBidder",
             "type": "address"
           },
-          { "internalType": "uint88", "name": "auctionDebt", "type": "uint88" },
+          {
+            "internalType": "uint88",
+            "name": "auctionDebt",
+            "type": "uint88"
+          },
           {
             "internalType": "uint88",
             "name": "dueIncentives",
             "type": "uint88"
           },
-          { "internalType": "bool", "name": "biddingAllowed", "type": "bool" },
-          { "internalType": "bool", "name": "claimed", "type": "bool" },
+          {
+            "internalType": "bool",
+            "name": "biddingAllowed",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "claimed",
+            "type": "bool"
+          },
           {
             "internalType": "address",
             "name": "tokenContract",
@@ -688,7 +808,11 @@
                 "name": "startTime",
                 "type": "uint80"
               },
-              { "internalType": "uint80", "name": "endTime", "type": "uint80" },
+              {
+                "internalType": "uint80",
+                "name": "endTime",
+                "type": "uint80"
+              },
               {
                 "internalType": "uint56",
                 "name": "tokenAmount",
@@ -716,14 +840,26 @@
           },
           {
             "components": [
-              { "internalType": "uint64", "name": "incMin", "type": "uint64" },
-              { "internalType": "uint64", "name": "incMax", "type": "uint64" },
+              {
+                "internalType": "uint64",
+                "name": "incMin",
+                "type": "uint64"
+              },
+              {
+                "internalType": "uint64",
+                "name": "incMax",
+                "type": "uint64"
+              },
               {
                 "internalType": "uint64",
                 "name": "bidMultiplier",
                 "type": "uint64"
               },
-              { "internalType": "uint64", "name": "stepMin", "type": "uint64" },
+              {
+                "internalType": "uint64",
+                "name": "stepMin",
+                "type": "uint64"
+              },
               {
                 "internalType": "uint256",
                 "name": "bidDecimals",
@@ -755,14 +891,26 @@
     "outputs": [
       {
         "components": [
-          { "internalType": "uint64", "name": "incMin", "type": "uint64" },
-          { "internalType": "uint64", "name": "incMax", "type": "uint64" },
+          {
+            "internalType": "uint64",
+            "name": "incMin",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "incMax",
+            "type": "uint64"
+          },
           {
             "internalType": "uint64",
             "name": "bidMultiplier",
             "type": "uint64"
           },
-          { "internalType": "uint64", "name": "stepMin", "type": "uint64" },
+          {
+            "internalType": "uint64",
+            "name": "stepMin",
+            "type": "uint64"
+          },
           {
             "internalType": "uint256",
             "name": "bidDecimals",
@@ -779,7 +927,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionStartTime",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -788,7 +940,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getAuctionStepMin",
     "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
@@ -797,7 +953,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getContractAddress",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -806,7 +966,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getTokenId",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -815,7 +979,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      }
     ],
     "name": "getTokenKind",
     "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
@@ -824,7 +992,11 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_contract", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      }
     ],
     "name": "isBiddingAllowed",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
@@ -833,9 +1005,21 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" },
-      { "internalType": "uint80", "name": "_newEndTime", "type": "uint80" },
-      { "internalType": "uint56", "name": "_newTokenAmount", "type": "uint56" },
+      {
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint80",
+        "name": "_newEndTime",
+        "type": "uint80"
+      },
+      {
+        "internalType": "uint56",
+        "name": "_newTokenAmount",
+        "type": "uint56"
+      },
       { "internalType": "bytes4", "name": "_tokenKind", "type": "bytes4" }
     ],
     "name": "modifyAuction",
@@ -890,14 +1074,26 @@
       },
       {
         "components": [
-          { "internalType": "uint64", "name": "incMin", "type": "uint64" },
-          { "internalType": "uint64", "name": "incMax", "type": "uint64" },
+          {
+            "internalType": "uint64",
+            "name": "incMin",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "incMax",
+            "type": "uint64"
+          },
           {
             "internalType": "uint64",
             "name": "bidMultiplier",
             "type": "uint64"
           },
-          { "internalType": "uint64", "name": "stepMin", "type": "uint64" },
+          {
+            "internalType": "uint64",
+            "name": "stepMin",
+            "type": "uint64"
+          },
           {
             "internalType": "uint256",
             "name": "bidDecimals",
@@ -916,7 +1112,11 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_contract", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      },
       { "internalType": "bool", "name": "_value", "type": "bool" }
     ],
     "name": "setBiddingAllowed",
@@ -969,7 +1169,11 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_newOwner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_newOwner",
+        "type": "address"
+      }
     ],
     "name": "transferOwnership",
     "outputs": [],
@@ -1170,6 +1374,37 @@
       }
     ],
     "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_auctionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_tokenContractAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_beneficiary",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "RoyaltyPaid",
     "type": "event"
   }
 ]

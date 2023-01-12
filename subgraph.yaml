@@ -45,4 +45,6 @@ dataSources:
           handler: handleAuction_StartTimeUpdated
         - event: Contract_BiddingAllowed(indexed address,bool)
           handler: handleContract_BiddingAllowed
+        - event: RoyaltyPaid(indexed uint256,indexed address,address,uint256)
+          handler: handleContract_RoyaltyPaid
       file: ./src/mapping.ts
