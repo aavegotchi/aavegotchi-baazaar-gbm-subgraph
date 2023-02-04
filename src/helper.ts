@@ -10,7 +10,7 @@ import {
     Auction_BidRemoved,
     Contract,
 } from "../generated/Contract/Contract";
-import { Auction, Bid, Incentive, User } from "../generated/schema";
+import { Auction, Bid, Incentive, Statistic, User } from "../generated/schema";
 import { BIGINT_ONE, BIGINT_ZERO } from "./constants";
 
 export function getOrCreateBid(
@@ -94,6 +94,7 @@ export function getOrCreateAuction(
         auction.contractAddress = event.address;
         auction.totalBidsVolume = BIGINT_ZERO;
         auction.royaltyFees = BIGINT_ZERO;
+        auction.totalBids = BIGINT_ZERO;
     }
 
     return auction;
@@ -199,4 +200,17 @@ export function updateProceeds(auction: Auction): Auction {
         .minus(auction.royaltyFees);
 
     return auction;
+}
+
+export function getOrCreateStatistics(contractAddress: Bytes): Statistic {
+    let stats = Statistic.load(contractAddress.toHexString());
+    if (!stats) {
+        stats = new Statistic(contractAddress.toHexString());
+        stats.erc1155Auctions = BIGINT_ZERO;
+        stats.erc721Auctions = BIGINT_ZERO;
+        stats.totalBidsVolume = BIGINT_ZERO;
+        stats.totalSalesVolume = BIGINT_ZERO;
+    }
+
+    return stats;
 }
