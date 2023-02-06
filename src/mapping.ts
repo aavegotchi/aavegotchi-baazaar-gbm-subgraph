@@ -32,6 +32,7 @@ import {
     getOrCreateAuction,
     getOrCreateBid,
     getOrCreateIncentive,
+    getOrCreateStatistics,
     getOrCreateUser,
     updateProceeds,
 } from "./helper";
@@ -103,6 +104,13 @@ export function handleAuction_BidPlaced(event: Auction_BidPlacedEvent): void {
     let stats = Statistic.load("0")!;
     stats.totalBidsVolume = stats.totalBidsVolume.plus(event.params._bidAmount);
     stats.save();
+
+    // update contract stats
+    let cStats = getOrCreateStatistics(auction.contractAddress);
+    cStats.totalBidsVolume = cStats.totalBidsVolume.plus(
+        event.params._bidAmount
+    );
+    cStats.save();
 
     user.save();
     auction.save();
@@ -468,6 +476,11 @@ export function handleAuction_ItemClaimed(
     let stats = Statistic.load("0")!;
     stats.totalSalesVolume = stats.totalSalesVolume.plus(auction.highestBid);
     stats.save();
+
+    // update contract stats
+    let cStats = getOrCreateStatistics(auction.contractAddress);
+    cStats.totalSalesVolume = cStats.totalSalesVolume.plus(auction.highestBid);
+    cStats.save();
 
     bid.save();
     auction.save();
