@@ -43,6 +43,8 @@ type Auction @entity {
     platformFees: BigInt!
     gbmFees: BigInt!
     royaltyFees: BigInt!
+
+    category: BigInt
 }
 
 type Bid @entity {

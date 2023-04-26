@@ -314,6 +314,7 @@ export function handleAuction_Initialized(
     if (!result.reverted && !resultHammerTime.reverted) {
         let auctionInfo = result.value;
 
+        auction.category = auctionInfo.info.category;
         auction.auctionDebt = auctionInfo.auctionDebt;
         auctionInfo.biddingAllowed;
         auction.claimed = auctionInfo.claimed;
