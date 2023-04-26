@@ -11,7 +11,7 @@ type Auction @entity {
     claimed: Boolean!
 
     #Auction Settings
-    hammerTimeDuration: BigInt!
+    hammerTimeDuration: BigInt
     bidDecimals: BigInt!
     stepMin: BigInt!
     incMin: BigInt!

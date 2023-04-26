@@ -319,7 +319,7 @@ export function handleAuction_Initialized(
 
     // @todo: seller, createdAt, startsAt, endsAt, claimAt,
     //  contractId quantity, presetId, cancelled, ercType, bids objects
-    if (!result.reverted && !resultHammerTime.reverted) {
+    if (!result.reverted) {
         let auctionInfo = result.value;
 
         auction.category = auctionInfo.info.category;
@@ -330,7 +330,7 @@ export function handleAuction_Initialized(
         let presets = auctionInfo.presets;
         auction.bidDecimals = presets.bidDecimals;
         auction.bidMultiplier = presets.bidMultiplier;
-        auction.hammerTimeDuration = resultHammerTime.value;
+
         auction.incMax = presets.incMax;
         auction.incMin = presets.incMin;
         auction.stepMin = presets.stepMin;
@@ -349,6 +349,10 @@ export function handleAuction_Initialized(
         auction.cancellationPeriodDuration = BIGINT_CANCELLATION_PERIOD_IN_SECONDS;
 
         auction = updateProceeds(auction);
+    }
+
+    if (!resultHammerTime.reverted) {
+        auction.hammerTimeDuration = resultHammerTime.value;
     }
 
     auction.save();
