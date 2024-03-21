@@ -11,6 +11,9 @@ import {
     Auction_ItemClaimed as Auction_ItemClaimedEvent,
     AuctionCancelled as AuctionCancelledEvent,
     RoyaltyPaid as RoyaltyPaidEvent,
+    Auction_BuyItNowUpdated as Auction_BuyItNowUpdatedEvent,
+    Auction_StartingPriceUpdated as Auction_StartingPriceUpdatedEvent,
+    Auction_BoughtNow as Auction_BoughtNowEvent,
 } from "../generated/Contract/Contract";
 import {
     Auction,
@@ -26,6 +29,9 @@ import {
     Auction_ItemClaimed,
     AuctionCancelled,
     Bid,
+    Auction_BuyItNowUpdated,
+    Auction_StartingPriceUpdated,
+    Auction_BoughtNow,
 } from "../generated/schema";
 import {
     calculateIncentives,
@@ -527,5 +533,116 @@ export function handleContract_RoyaltyPaid(event: RoyaltyPaidEvent): void {
     let auction = getOrCreateAuction(event.params._auctionId, event);
     auction.royaltyFees = auction.royaltyFees.plus(event.params._amount);
     auction = updateProceeds(auction);
+    auction.save();
+}
+
+export function handleAuction_BuyItNowUpdated(
+    event: Auction_BuyItNowUpdatedEvent
+): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
+    // event
+    let ev = new Auction_BuyItNowUpdated(events.id(event));
+    ev.emitter = emitter.id;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionId;
+    ev.buyNowPrice = event.params._buyItNowPrice;
+    ev.save();
+
+    // update entity
+    let entity = getOrCreateAuction(event.params._auctionId, event);
+    if (!entity) {
+        log.warning("auction with id {} not found", [
+            event.params._auctionId.toString(),
+        ]);
+        return;
+    }
+    entity.buyNowPrice = event.params._buyItNowPrice;
+    entity.save();
+}
+
+export function handleAuction_StartingPriceUpdated(
+    event: Auction_StartingPriceUpdatedEvent
+): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
+    // event
+    let ev = new Auction_StartingPriceUpdated(events.id(event));
+    ev.emitter = emitter.id;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionId;
+    ev.startBidPrice = event.params._startPrice;
+    ev.save();
+
+    // update entity
+    let entity = getOrCreateAuction(event.params._auctionId, event);
+    if (!entity) {
+        log.warning("auction with id {} not found", [
+            event.params._auctionId.toString(),
+        ]);
+        return;
+    }
+    entity.startBidPrice = event.params._startPrice;
+    entity.save();
+}
+
+export function handleAuction_BoughtNow(
+    event: Auction_BoughtNowEvent
+): void {
+    // emitter
+    let emitter = getOrCreateUser(event.transaction.from);
+    emitter.save();
+
+    // event
+    let ev = new Auction_BoughtNow(events.id(event));
+    ev.emitter = emitter.id;
+    ev.transaction = transactions.log(event).id;
+    ev.timestamp = event.block.timestamp;
+
+    ev.auctionId = event.params._auctionId;
+    ev.save();
+
+    // update entity
+    let auction = getOrCreateAuction(event.params._auctionId, event);
+    if (!auction) {
+        log.warning("auction with id {} not found", [
+            event.params._auctionId.toString(),
+        ]);
+        return;
+    }
+    auction.claimed = true;
+    auction.claimAt = event.block.timestamp;
+
+    let bid = getOrCreateBid(
+        auction.highestBidder,
+        auction.highestBid,
+        auction as Auction,
+        event
+    );
+    bid.outbid = true;
+
+    let user = getOrCreateUser(auction.highestBidder);
+    user.outbids = user.outbids.plus(BigInt.fromI32(1));
+    user.save();
+
+    // Update Stats
+    let stats = Statistic.load("0")!;
+    stats.totalSalesVolume = stats.totalSalesVolume.plus(auction.buyNowPrice);
+    stats.save();
+
+    // update contract stats
+    let cStats = getOrCreateStatistics(auction.contractAddress);
+    cStats.totalSalesVolume = cStats.totalSalesVolume.plus(auction.buyNowPrice);
+    cStats.save();
+
+    bid.save();
     auction.save();
 }

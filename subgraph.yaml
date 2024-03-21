@@ -11,7 +11,7 @@ dataSources:
       startBlock: 36176058
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - AuctionCancelled
@@ -47,4 +47,10 @@ dataSources:
           handler: handleContract_BiddingAllowed
         - event: RoyaltyPaid(indexed uint256,indexed address,address,uint256)
           handler: handleContract_RoyaltyPaid
+        - event: Auction_BuyItNowUpdated(indexed uint256,uint256)
+          handler: handleAuction_BuyItNowUpdated
+        - event: Auction_StartingPriceUpdated(indexed uint256,uint256)
+          handler: handleAuction_StartingPriceUpdated
+        - event: Auction_BoughtNow(indexed uint256,indexed address)
+          handler: handleAuction_BoughtNow
       file: ./src/mapping.ts

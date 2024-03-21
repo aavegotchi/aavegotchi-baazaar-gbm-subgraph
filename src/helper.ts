@@ -95,6 +95,8 @@ export function getOrCreateAuction(
         auction.totalBidsVolume = BIGINT_ZERO;
         auction.royaltyFees = BIGINT_ZERO;
         auction.totalBids = BIGINT_ZERO;
+        auction.buyNowPrice = BIGINT_ZERO;
+        auction.startBidPrice = BIGINT_ZERO;
     }
 
     return auction;

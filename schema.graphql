@@ -45,6 +45,8 @@ type Auction @entity {
     royaltyFees: BigInt!
 
     category: Int!
+    buyNowPrice: BigInt!
+    startBidPrice: BigInt!
 }
 
 type Bid @entity {
@@ -240,4 +242,33 @@ type Auction_BidPlaced implements Event @entity(immutable: true) {
     bidAmount: BigInt!
 
     # auction: Auction!
+}
+
+type Auction_BuyItNowUpdated implements Event @entity(immutable: true) {
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
+
+    auctionId: BigInt!
+    buyNowPrice: BigInt!
+}
+
+type Auction_StartingPriceUpdated implements Event @entity(immutable: true) {
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
+
+    auctionId: BigInt!
+    startBidPrice: BigInt!
+}
+
+type Auction_BoughtNow implements Event @entity(immutable: true) {
+    id: ID!
+    emitter: User!
+    transaction: Transaction!
+    timestamp: BigInt!
+
+    auctionId: BigInt!
 }
