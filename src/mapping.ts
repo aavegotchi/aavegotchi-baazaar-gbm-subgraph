@@ -316,6 +316,8 @@ export function handleAuction_Initialized(
         "0x0000000000000000000000000000000000000000"
     );
     auction.cancelled = false;
+    auction.buyNowPrice = BigInt.fromI32(0);
+    auction.startBidPrice = BigInt.fromI32(0);
 
     //Fetch auction info from contract
     let contract = Contract.bind(event.address);
