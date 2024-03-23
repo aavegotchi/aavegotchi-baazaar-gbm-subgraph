@@ -73,7 +73,7 @@ export function getOrCreateUser(address: Bytes): User {
 export function getOrCreateAuction(
     auctionId: BigInt,
     event: ethereum.Event
-): Auction {
+): Auction | null {
     let id = auctionId.toString();
     let auction = Auction.load(id);
     if (!auction) {
@@ -81,7 +81,7 @@ export function getOrCreateAuction(
         let contract = Contract.bind(event.address);
         let result = contract.try_getAuctionInfo(auctionId);
         if (result.reverted) {
-            return auction;
+            return null;
         }
 
         let value = result.value;
