@@ -323,46 +323,47 @@ export function handleAuction_Initialized(
     let contract = Contract.bind(event.address);
 
     let result = contract.try_getAuctionInfo(event.params._auctionID);
-    let resultHammerTime = contract.try_getAuctionHammerTimeDuration();
-
-    // @todo: seller, createdAt, startsAt, endsAt, claimAt,
-    //  contractId quantity, presetId, cancelled, ercType, bids objects
-    if (!result.reverted) {
-        let auctionInfo = result.value;
-
-        auction.category = auctionInfo.info.category;
-        auction.auctionDebt = auctionInfo.auctionDebt;
-        auctionInfo.biddingAllowed;
-        auction.claimed = auctionInfo.claimed;
-
-        let presets = auctionInfo.presets;
-        auction.bidDecimals = presets.bidDecimals;
-        auction.bidMultiplier = presets.bidMultiplier;
-
-        auction.incMax = presets.incMax;
-        auction.incMin = presets.incMin;
-        auction.stepMin = presets.stepMin;
-        auction.seller = auctionInfo.owner;
-        auction.createdAt = event.block.timestamp;
-        auction.quantity = event.params._tokenAmount;
-        auction.startsAt = event.block.timestamp;
-        auction.dueIncentives = auctionInfo.dueIncentives;
-
-        auction.startsAt = auctionInfo.info.startTime;
-        auction.endsAt = auctionInfo.info.endTime;
-        auction.endsAtOriginal = auctionInfo.info.endTime;
-
-        // auction.claimAt =
-        auction.highestBidder = auctionInfo.highestBidder;
-        auction.cancellationPeriodDuration = BIGINT_CANCELLATION_PERIOD_IN_SECONDS;
-
-        auction = updateProceeds(auction);
+    // skip if auction info is not found
+    if (result.reverted) {
+        return;
     }
 
+    let resultHammerTime = contract.try_getAuctionHammerTimeDuration();
     if (!resultHammerTime.reverted) {
         auction.hammerTimeDuration = resultHammerTime.value;
     }
 
+    // @todo: seller, createdAt, startsAt, endsAt, claimAt,
+    //  contractId quantity, presetId, cancelled, ercType, bids objects
+
+    let auctionInfo = result.value;
+    auction.category = auctionInfo.info.category;
+    auction.auctionDebt = auctionInfo.auctionDebt;
+    auctionInfo.biddingAllowed;
+    auction.claimed = auctionInfo.claimed;
+
+    let presets = auctionInfo.presets;
+    auction.bidDecimals = presets.bidDecimals;
+    auction.bidMultiplier = presets.bidMultiplier;
+
+    auction.incMax = presets.incMax;
+    auction.incMin = presets.incMin;
+    auction.stepMin = presets.stepMin;
+    auction.seller = auctionInfo.owner;
+    auction.createdAt = event.block.timestamp;
+    auction.quantity = event.params._tokenAmount;
+    auction.startsAt = event.block.timestamp;
+    auction.dueIncentives = auctionInfo.dueIncentives;
+
+    auction.startsAt = auctionInfo.info.startTime;
+    auction.endsAt = auctionInfo.info.endTime;
+    auction.endsAtOriginal = auctionInfo.info.endTime;
+
+    // auction.claimAt =
+    auction.highestBidder = auctionInfo.highestBidder;
+    auction.cancellationPeriodDuration = BIGINT_CANCELLATION_PERIOD_IN_SECONDS;
+
+    auction = updateProceeds(auction);
     auction.save();
 
     let contractEntity = ContractEntity.load(
