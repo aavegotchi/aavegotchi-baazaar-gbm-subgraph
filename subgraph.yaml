@@ -7,7 +7,7 @@ dataSources:
     network: matic
     source:
       address: "0xd5543237c656f25eea69f1e247b8fa59ba353306"
-      abi: Contract
+      abi: ContractV1
       startBlock: 36176058
     mapping:
       kind: ethereum/events
@@ -24,6 +24,8 @@ dataSources:
         - Auction_StartTimeUpdated
         - Contract_BiddingAllowed
       abis:
+        - name: ContractV1
+          file: ./abis/abi_gbm_new.json
         - name: Contract
           file: ./abis/abi_gbm.json
       eventHandlers:

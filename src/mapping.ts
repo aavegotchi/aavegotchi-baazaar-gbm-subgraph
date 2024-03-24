@@ -1,6 +1,5 @@
 import { Address, BigInt, log } from "@graphprotocol/graph-ts";
 import {
-    Contract,
     Auction_BidPlaced as Auction_BidPlacedEvent,
     Auction_BidRemoved as Auction_BidRemovedEvent,
     Auction_EndTimeUpdated as Auction_EndTimeUpdatedEvent,
@@ -14,7 +13,8 @@ import {
     Auction_BuyItNowUpdated as Auction_BuyItNowUpdatedEvent,
     Auction_StartingPriceUpdated as Auction_StartingPriceUpdatedEvent,
     Auction_BoughtNow as Auction_BoughtNowEvent,
-} from "../generated/Contract/Contract";
+    ContractV1,
+} from "../generated/Contract/ContractV1";
 import {
     Auction,
     Statistic,
@@ -40,6 +40,7 @@ import {
     getOrCreateIncentive,
     getOrCreateStatistics,
     getOrCreateUser,
+    updateAuction,
     updateProceeds,
 } from "./helper";
 import { events, transactions } from "@amxx/graphprotocol-utils";
@@ -319,15 +320,10 @@ export function handleAuction_Initialized(
     auction.buyNowPrice = BigInt.fromI32(0);
     auction.startBidPrice = BigInt.fromI32(0);
 
-    //Fetch auction info from contract
-    let contract = Contract.bind(event.address);
+    // Update Auction
+    auction = updateAuction(auction, event);
 
-    let result = contract.try_getAuctionInfo(event.params._auctionID);
-    // skip if auction info is not found
-    if (result.reverted) {
-        return;
-    }
-
+    let contract = ContractV1.bind(event.address)
     let resultHammerTime = contract.try_getAuctionHammerTimeDuration();
     if (!resultHammerTime.reverted) {
         auction.hammerTimeDuration = resultHammerTime.value;
@@ -336,31 +332,7 @@ export function handleAuction_Initialized(
     // @todo: seller, createdAt, startsAt, endsAt, claimAt,
     //  contractId quantity, presetId, cancelled, ercType, bids objects
 
-    let auctionInfo = result.value;
-    auction.category = auctionInfo.info.category;
-    auction.auctionDebt = auctionInfo.auctionDebt;
-    auctionInfo.biddingAllowed;
-    auction.claimed = auctionInfo.claimed;
-
-    let presets = auctionInfo.presets;
-    auction.bidDecimals = presets.bidDecimals;
-    auction.bidMultiplier = presets.bidMultiplier;
-
-    auction.incMax = presets.incMax;
-    auction.incMin = presets.incMin;
-    auction.stepMin = presets.stepMin;
-    auction.seller = auctionInfo.owner;
-    auction.createdAt = event.block.timestamp;
     auction.quantity = event.params._tokenAmount;
-    auction.startsAt = event.block.timestamp;
-    auction.dueIncentives = auctionInfo.dueIncentives;
-
-    auction.startsAt = auctionInfo.info.startTime;
-    auction.endsAt = auctionInfo.info.endTime;
-    auction.endsAtOriginal = auctionInfo.info.endTime;
-
-    // auction.claimAt =
-    auction.highestBidder = auctionInfo.highestBidder;
     auction.cancellationPeriodDuration = BIGINT_CANCELLATION_PERIOD_IN_SECONDS;
 
     auction = updateProceeds(auction);
