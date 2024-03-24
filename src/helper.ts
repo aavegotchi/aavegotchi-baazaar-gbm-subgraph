@@ -5,13 +5,10 @@ import {
     Bytes,
     ethereum,
 } from "@graphprotocol/graph-ts";
-import {
-    Auction_BidPlaced,
-    Auction_BidRemoved,
-    Contract,
-} from "../generated/Contract/Contract";
 import { Auction, Bid, Incentive, Statistic, User } from "../generated/schema";
-import { BIGINT_ONE, BIGINT_ZERO } from "./constants";
+import { BIGINT_ONE, BIGINT_ZERO, BLOCK_NR_BUY_NOW_ACTIVATED } from "./constants";
+import { ContractV1 } from "../generated/Contract/ContractV1";
+import { Contract } from "../generated/Contract/Contract";
 
 export function getOrCreateBid(
     bidder: Bytes,
@@ -73,28 +70,20 @@ export function getOrCreateUser(address: Bytes): User {
 export function getOrCreateAuction(
     auctionId: BigInt,
     event: ethereum.Event
-): Auction {
+): Auction | null {
     let id = auctionId.toString();
     let auction = Auction.load(id);
     if (!auction) {
         auction = new Auction(id);
-        let contract = Contract.bind(event.address);
-        let result = contract.try_getAuctionInfo(auctionId);
-        if (result.reverted) {
-            return auction;
-        }
-
-        let value = result.value;
-        auction.bidDecimals = value.presets.bidDecimals;
-        auction.bidMultiplier = value.presets.bidMultiplier;
-        // auction.bids = [];
+        auction = updateAuction(auction, event);
         auction.cancelled = false;
-        auction.claimed = value.claimed;
         auction.claimAt = BIGINT_ZERO;
         auction.contractAddress = event.address;
         auction.totalBidsVolume = BIGINT_ZERO;
         auction.royaltyFees = BIGINT_ZERO;
         auction.totalBids = BIGINT_ZERO;
+        auction.buyNowPrice = BIGINT_ZERO;
+        auction.startBidPrice = BIGINT_ZERO;
     }
 
     return auction;
@@ -213,4 +202,89 @@ export function getOrCreateStatistics(contractAddress: Bytes): Statistic {
     }
 
     return stats;
+}
+
+export function updateAuctionV0(auction: Auction, event: ethereum.Event): Auction {
+    let contract = Contract.bind(event.address);
+    let result = contract.try_getAuctionInfo(BigInt.fromString(auction.id));
+    if (result.reverted) {
+        return auction;
+    }
+
+    let auctionInfo = result.value;
+    auction.category = auctionInfo.info.category;
+    auction.auctionDebt = auctionInfo.auctionDebt;
+    auctionInfo.biddingAllowed;
+    auction.claimed = auctionInfo.claimed;
+
+    let presets = auctionInfo.presets;
+    auction.bidDecimals = presets.bidDecimals;
+    auction.bidMultiplier = presets.bidMultiplier;
+
+    auction.incMax = presets.incMax;
+    auction.incMin = presets.incMin;
+    auction.stepMin = presets.stepMin;
+    auction.seller = auctionInfo.owner;
+    auction.createdAt = event.block.timestamp;
+
+    auction.startsAt = event.block.timestamp;
+    auction.dueIncentives = auctionInfo.dueIncentives;
+
+    auction.startsAt = auctionInfo.info.startTime;
+    auction.endsAt = auctionInfo.info.endTime;
+    auction.endsAtOriginal = auctionInfo.info.endTime;
+
+    // auction.claimAt =
+    auction.highestBidder = auctionInfo.highestBidder;
+
+    auction.bidDecimals = auctionInfo.presets.bidDecimals;
+    auction.bidMultiplier = auctionInfo.presets.bidMultiplier;
+
+    auction.claimed = auctionInfo.claimed;
+    return auction;
+}
+
+export function updateAuctionV1(auction: Auction, event: ethereum.Event): Auction {
+    let contract = ContractV1.bind(event.address);
+    let result = contract.try_getAuctionInfo(BigInt.fromString(auction.id));
+    if (result.reverted) {
+        return auction;
+    }
+
+    let auctionInfo = result.value;
+    auction.category = auctionInfo.info.category;
+    auction.auctionDebt = auctionInfo.auctionDebt;
+    auctionInfo.biddingAllowed;
+    auction.claimed = auctionInfo.claimed;
+
+    let presets = auctionInfo.presets;
+    auction.bidDecimals = presets.bidDecimals;
+    auction.bidMultiplier = presets.bidMultiplier;
+
+    auction.incMax = presets.incMax;
+    auction.incMin = presets.incMin;
+    auction.stepMin = presets.stepMin;
+    auction.seller = auctionInfo.owner;
+    auction.createdAt = event.block.timestamp;
+
+    auction.startsAt = event.block.timestamp;
+    auction.dueIncentives = auctionInfo.dueIncentives;
+
+    auction.startsAt = auctionInfo.info.startTime;
+    auction.endsAt = auctionInfo.info.endTime;
+    auction.endsAtOriginal = auctionInfo.info.endTime;
+
+    // auction.claimAt =
+    auction.highestBidder = auctionInfo.highestBidder;
+
+    auction.bidDecimals = auctionInfo.presets.bidDecimals;
+    auction.bidMultiplier = auctionInfo.presets.bidMultiplier;
+
+    auction.claimed = auctionInfo.claimed;
+
+    return auction;
+}
+
+export function updateAuction(auction: Auction, event: ethereum.Event): Auction {
+    return event.block.number.lt(BLOCK_NR_BUY_NOW_ACTIVATED) ? updateAuctionV0(auction, event) : updateAuctionV1(auction, event);
 }

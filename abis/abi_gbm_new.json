@@ -1,50 +1,151 @@
 [
-  { "inputs": [], "name": "AuctionClaimed", "type": "error" },
-  { "inputs": [], "name": "AuctionEnded", "type": "error" },
-  { "inputs": [], "name": "AuctionExists", "type": "error" },
+  { "inputs": [], "name": "EmptyCalldata", "type": "error" },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "timeToEnd", "type": "uint256" }
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
     ],
-    "name": "AuctionNotEnded",
+    "name": "ImmutableFunction",
     "type": "error"
   },
-  { "inputs": [], "name": "AuctionNotStarted", "type": "error" },
-  { "inputs": [], "name": "BiddingNotAllowed", "type": "error" },
-  { "inputs": [], "name": "CancellationTimeExceeded", "type": "error" },
-  { "inputs": [], "name": "ContractDisabledAlready", "type": "error" },
-  { "inputs": [], "name": "ContractEnabledAlready", "type": "error" },
-  { "inputs": [], "name": "DurationTooHigh", "type": "error" },
-  { "inputs": [], "name": "DurationTooLow", "type": "error" },
-  { "inputs": [], "name": "EndTimeTooLow", "type": "error" },
-  { "inputs": [], "name": "InsufficientToken", "type": "error" },
+  { "inputs": [], "name": "InValidFacetCutAction", "type": "error" },
+  { "inputs": [], "name": "InitCallFailed", "type": "error" },
+  { "inputs": [], "name": "MustBeZeroAddress", "type": "error" },
+  { "inputs": [], "name": "NoCode", "type": "error" },
+  { "inputs": [], "name": "NoSelectorsInFacet", "type": "error" },
+  { "inputs": [], "name": "NoZeroAddress", "type": "error" },
+  { "inputs": [], "name": "NonEmptyCalldata", "type": "error" },
   {
-    "inputs": [{ "internalType": "string", "name": "arg", "type": "string" }],
-    "name": "InvalidAuctionParams",
+    "inputs": [
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    ],
+    "name": "NonExistentSelector",
     "type": "error"
   },
-  { "inputs": [], "name": "MinBidNotMet", "type": "error" },
-  { "inputs": [], "name": "ModifyAuctionError", "type": "error" },
-  { "inputs": [], "name": "NoAuction", "type": "error" },
-  { "inputs": [], "name": "NoSecondaryMarket", "type": "error" },
-  { "inputs": [], "name": "NoZeroBidAmount", "type": "error" },
-  { "inputs": [], "name": "NotAuctionOwner", "type": "error" },
-  { "inputs": [], "name": "NotHighestBidderOrOwner", "type": "error" },
-  { "inputs": [], "name": "NotTokenOwner", "type": "error" },
-  { "inputs": [], "name": "StartOrEndTimeTooLow", "type": "error" },
-  { "inputs": [], "name": "TokenTypeMismatch", "type": "error" },
-  { "inputs": [], "name": "UndefinedPreset", "type": "error" },
+  { "inputs": [], "name": "NotDiamondOwner", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    ],
+    "name": "SameSelectorReplacement",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    ],
+    "name": "SelectorExists",
+    "type": "error"
+  },
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "currentHighestBid",
-        "type": "uint256"
+        "components": [
+          {
+            "internalType": "address",
+            "name": "facetAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "enum IDiamondCut.FacetCutAction",
+            "name": "action",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes4[]",
+            "name": "functionSelectors",
+            "type": "bytes4[]"
+          }
+        ],
+        "internalType": "struct IDiamondCut.FacetCut[]",
+        "name": "_diamondCut",
+        "type": "tuple[]"
+      },
+      { "internalType": "address", "name": "_init", "type": "address" },
+      { "internalType": "bytes", "name": "_calldata", "type": "bytes" }
+    ],
+    "name": "diamondCut",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "_functionSelector",
+        "type": "bytes4"
       }
     ],
-    "name": "UnmatchedHighestBid",
-    "type": "error"
+    "name": "facetAddress",
+    "outputs": [
+      { "internalType": "address", "name": "facetAddress_", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
+  {
+    "inputs": [],
+    "name": "facetAddresses",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "facetAddresses_",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_facet", "type": "address" }
+    ],
+    "name": "facetFunctionSelectors",
+    "outputs": [
+      {
+        "internalType": "bytes4[]",
+        "name": "facetFunctionSelectors_",
+        "type": "bytes4[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "facets",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "facetAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes4[]",
+            "name": "functionSelectors",
+            "type": "bytes4[]"
+          }
+        ],
+        "internalType": "struct IDiamondLoupe.Facet[]",
+        "name": "facets_",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "_interfaceId", "type": "bytes4" }
+    ],
+    "name": "supportsInterface",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  { "inputs": [], "name": "NotDiamondOwner", "type": "error" },
   {
     "anonymous": false,
     "inputs": [
@@ -112,6 +213,44 @@
       }
     ],
     "name": "Auction_BidRemoved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_auctionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_buyer",
+        "type": "address"
+      }
+    ],
+    "name": "Auction_BoughtNow",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_auctionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_buyItNowPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "Auction_BuyItNowUpdated",
     "type": "event"
   },
   {
@@ -190,6 +329,12 @@
         "internalType": "bytes4",
         "name": "_tokenKind",
         "type": "bytes4"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_presetID",
+        "type": "uint256"
       }
     ],
     "name": "Auction_Initialized",
@@ -218,13 +363,63 @@
         "type": "uint256"
       },
       {
+        "indexed": true,
+        "internalType": "uint64",
+        "name": "_newTokenAmount",
+        "type": "uint64"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint80",
+        "name": "_newEndTime",
+        "type": "uint80"
+      }
+    ],
+    "name": "Auction_Modified",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_auctionID",
+        "type": "uint256"
+      },
+      {
         "indexed": false,
         "internalType": "uint256",
         "name": "_startTime",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_endTime",
+        "type": "uint256"
       }
     ],
     "name": "Auction_StartTimeUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_auctionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_startPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "Auction_StartingPriceUpdated",
     "type": "event"
   },
   {
@@ -247,6 +442,37 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_auctionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_tokenContractAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_beneficiary",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "RoyaltyPaid",
+    "type": "event"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256[]",
@@ -261,29 +487,57 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+      {
+        "components": [
+          { "internalType": "uint80", "name": "startTime", "type": "uint80" },
+          { "internalType": "uint80", "name": "endTime", "type": "uint80" },
+          { "internalType": "uint56", "name": "tokenAmount", "type": "uint56" },
+          { "internalType": "uint8", "name": "category", "type": "uint8" },
+          { "internalType": "bytes4", "name": "tokenKind", "type": "bytes4" },
+          { "internalType": "uint256", "name": "tokenID", "type": "uint256" },
+          {
+            "internalType": "uint96",
+            "name": "buyItNowPrice",
+            "type": "uint96"
+          },
+          { "internalType": "uint96", "name": "startingBid", "type": "uint96" }
+        ],
+        "internalType": "struct InitiatorInfo[]",
+        "name": "_info",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_tokenContracts",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_auctionPresetIDs",
+        "type": "uint256[]"
+      }
     ],
-    "name": "cancelAuction",
+    "name": "batchCreateAuctions",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_contract", "type": "address" },
-      { "internalType": "uint256", "name": "id", "type": "uint256" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
     ],
-    "name": "checkIndex",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
+    "name": "buyNow",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "checkPubKey",
-    "outputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
-    "stateMutability": "view",
+    "inputs": [
+      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
+    ],
+    "name": "cancelAuction",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -300,7 +554,11 @@
       { "internalType": "uint256", "name": "_auctionID", "type": "uint256" },
       { "internalType": "uint256", "name": "_bidAmount", "type": "uint256" },
       { "internalType": "uint256", "name": "_highestBid", "type": "uint256" },
-      { "internalType": "uint256", "name": "_contractID", "type": "uint256" },
+      {
+        "internalType": "address",
+        "name": "_tokenContract",
+        "type": "address"
+      },
       { "internalType": "uint256", "name": "_tokenID", "type": "uint256" },
       { "internalType": "uint256", "name": "_amount", "type": "uint256" },
       { "internalType": "bytes", "name": "_signature", "type": "bytes" }
@@ -316,15 +574,26 @@
         "components": [
           { "internalType": "uint80", "name": "startTime", "type": "uint80" },
           { "internalType": "uint80", "name": "endTime", "type": "uint80" },
-          { "internalType": "uint64", "name": "tokenAmount", "type": "uint64" },
+          { "internalType": "uint56", "name": "tokenAmount", "type": "uint56" },
+          { "internalType": "uint8", "name": "category", "type": "uint8" },
           { "internalType": "bytes4", "name": "tokenKind", "type": "bytes4" },
-          { "internalType": "uint256", "name": "tokenID", "type": "uint256" }
+          { "internalType": "uint256", "name": "tokenID", "type": "uint256" },
+          {
+            "internalType": "uint96",
+            "name": "buyItNowPrice",
+            "type": "uint96"
+          },
+          { "internalType": "uint96", "name": "startingBid", "type": "uint96" }
         ],
         "internalType": "struct InitiatorInfo",
         "name": "_info",
         "type": "tuple"
       },
-      { "internalType": "uint160", "name": "_contractID", "type": "uint160" },
+      {
+        "internalType": "address",
+        "name": "_tokenContract",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "_auctionPresetID",
@@ -333,25 +602,6 @@
     ],
     "name": "createAuction",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_contractID", "type": "uint256" }
-    ],
-    "name": "disableContract",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_contractID", "type": "uint256" },
-      { "internalType": "address", "name": "_tokenContract", "type": "address" }
-    ],
-    "name": "enableContract",
-    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -369,7 +619,7 @@
       { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
     ],
     "name": "getAuctionBidMultiplier",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -401,9 +651,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
-    ],
+    "inputs": [],
     "name": "getAuctionHammerTimeDuration",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -432,7 +680,7 @@
       { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
     ],
     "name": "getAuctionIncMax",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -441,7 +689,7 @@
       { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
     ],
     "name": "getAuctionIncMin",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -469,9 +717,9 @@
           { "internalType": "bool", "name": "biddingAllowed", "type": "bool" },
           { "internalType": "bool", "name": "claimed", "type": "bool" },
           {
-            "internalType": "uint160",
-            "name": "contractID",
-            "type": "uint160"
+            "internalType": "address",
+            "name": "tokenContract",
+            "type": "address"
           },
           {
             "components": [
@@ -482,10 +730,11 @@
               },
               { "internalType": "uint80", "name": "endTime", "type": "uint80" },
               {
-                "internalType": "uint64",
+                "internalType": "uint56",
                 "name": "tokenAmount",
-                "type": "uint64"
+                "type": "uint56"
               },
+              { "internalType": "uint8", "name": "category", "type": "uint8" },
               {
                 "internalType": "bytes4",
                 "name": "tokenKind",
@@ -495,6 +744,16 @@
                 "internalType": "uint256",
                 "name": "tokenID",
                 "type": "uint256"
+              },
+              {
+                "internalType": "uint96",
+                "name": "buyItNowPrice",
+                "type": "uint96"
+              },
+              {
+                "internalType": "uint96",
+                "name": "startingBid",
+                "type": "uint96"
               }
             ],
             "internalType": "struct InitiatorInfo",
@@ -512,20 +771,21 @@
               },
               { "internalType": "uint64", "name": "stepMin", "type": "uint64" },
               {
-                "internalType": "uint240",
+                "internalType": "uint256",
                 "name": "bidDecimals",
-                "type": "uint240"
-              },
-              {
-                "internalType": "uint16",
-                "name": "hammerTimeDuration",
-                "type": "uint16"
+                "type": "uint256"
               }
             ],
             "internalType": "struct Preset",
             "name": "presets",
             "type": "tuple"
-          }
+          },
+          {
+            "internalType": "uint96",
+            "name": "buyItNowPrice",
+            "type": "uint96"
+          },
+          { "internalType": "uint96", "name": "startingBid", "type": "uint96" }
         ],
         "internalType": "struct Auction",
         "name": "auctionInfo_",
@@ -556,14 +816,9 @@
           },
           { "internalType": "uint64", "name": "stepMin", "type": "uint64" },
           {
-            "internalType": "uint240",
+            "internalType": "uint256",
             "name": "bidDecimals",
-            "type": "uint240"
-          },
-          {
-            "internalType": "uint16",
-            "name": "hammerTimeDuration",
-            "type": "uint16"
+            "type": "uint256"
           }
         ],
         "internalType": "struct Preset",
@@ -588,6 +843,13 @@
       { "internalType": "uint256", "name": "_auctionID", "type": "uint256" }
     ],
     "name": "getAuctionStepMin",
+    "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getBuyItNowInvalidationThreshold",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -632,7 +894,7 @@
     "inputs": [
       { "internalType": "uint256", "name": "_auctionID", "type": "uint256" },
       { "internalType": "uint80", "name": "_newEndTime", "type": "uint80" },
-      { "internalType": "uint64", "name": "_newTokenAmount", "type": "uint64" },
+      { "internalType": "uint56", "name": "_newTokenAmount", "type": "uint56" },
       { "internalType": "bytes4", "name": "_tokenKind", "type": "bytes4" }
     ],
     "name": "modifyAuction",
@@ -680,6 +942,18 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "_pixelcraft", "type": "address" },
+      { "internalType": "address", "name": "_dao", "type": "address" },
+      { "internalType": "address", "name": "_gbm", "type": "address" },
+      { "internalType": "address", "name": "_rarityFarming", "type": "address" }
+    ],
+    "name": "setAddresses",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
         "internalType": "uint256",
         "name": "_auctionPresetID",
@@ -696,14 +970,9 @@
           },
           { "internalType": "uint64", "name": "stepMin", "type": "uint64" },
           {
-            "internalType": "uint240",
+            "internalType": "uint256",
             "name": "bidDecimals",
-            "type": "uint240"
-          },
-          {
-            "internalType": "uint16",
-            "name": "hammerTimeDuration",
-            "type": "uint16"
+            "type": "uint256"
           }
         ],
         "internalType": "struct Preset",
@@ -725,5 +994,168 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_invalidationThreshold",
+        "type": "uint256"
+      }
+    ],
+    "name": "setBuyItNowInvalidationThreshold",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_auctionID", "type": "uint256" },
+      { "internalType": "uint96", "name": "_buyItNowPrice", "type": "uint96" }
+    ],
+    "name": "setBuyNow",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "_newPubkey", "type": "bytes" }
+    ],
+    "name": "setPubkey",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_tokenContract",
+        "type": "address"
+      },
+      { "internalType": "bool", "name": "_allowed", "type": "bool" }
+    ],
+    "name": "toggleContractWhitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  { "inputs": [], "name": "NotDiamondOwner", "type": "error" },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      { "internalType": "address", "name": "owner_", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  { "inputs": [], "name": "EmptyCalldata", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    ],
+    "name": "ImmutableFunction",
+    "type": "error"
+  },
+  { "inputs": [], "name": "InValidFacetCutAction", "type": "error" },
+  { "inputs": [], "name": "InitCallFailed", "type": "error" },
+  { "inputs": [], "name": "MustBeZeroAddress", "type": "error" },
+  { "inputs": [], "name": "NoCode", "type": "error" },
+  { "inputs": [], "name": "NoSelectorsInFacet", "type": "error" },
+  { "inputs": [], "name": "NoZeroAddress", "type": "error" },
+  { "inputs": [], "name": "NonEmptyCalldata", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    ],
+    "name": "NonExistentSelector",
+    "type": "error"
+  },
+  { "inputs": [], "name": "NotDiamondOwner", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    ],
+    "name": "SameSelectorReplacement",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    ],
+    "name": "SelectorExists",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "facetAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "enum IDiamondCut.FacetCutAction",
+            "name": "action",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes4[]",
+            "name": "functionSelectors",
+            "type": "bytes4[]"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct IDiamondCut.FacetCut[]",
+        "name": "_diamondCut",
+        "type": "tuple[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_init",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "_calldata",
+        "type": "bytes"
+      }
+    ],
+    "name": "DiamondCut",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
   }
 ]
