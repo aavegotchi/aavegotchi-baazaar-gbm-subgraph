@@ -26,6 +26,7 @@ type Auction @entity {
     endsAt: BigInt
     endsAtOriginal: BigInt
     claimAt: BigInt
+    createdBlock: BigInt!
 
     quantity: BigInt
     presetId: Int

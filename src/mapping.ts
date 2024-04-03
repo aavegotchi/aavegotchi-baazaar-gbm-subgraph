@@ -336,6 +336,7 @@ export function handleAuction_Initialized(
         auction.stepMin = presets.stepMin;
         auction.seller = auctionInfo.owner;
         auction.createdAt = event.block.timestamp;
+        auction.createdBlock = event.block.number;
         auction.quantity = event.params._tokenAmount;
         auction.startsAt = event.block.timestamp;
         auction.dueIncentives = auctionInfo.dueIncentives;
