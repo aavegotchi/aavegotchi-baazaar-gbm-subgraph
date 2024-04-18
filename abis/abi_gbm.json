@@ -1,9 +1,7 @@
 [
     { "inputs": [], "name": "EmptyCalldata", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "ImmutableFunction",
         "type": "error"
     },
@@ -15,24 +13,18 @@
     { "inputs": [], "name": "NoZeroAddress", "type": "error" },
     { "inputs": [], "name": "NonEmptyCalldata", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "NonExistentSelector",
         "type": "error"
     },
     { "inputs": [], "name": "NotDiamondOwner", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "SameSelectorReplacement",
         "type": "error"
     },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "SelectorExists",
         "type": "error"
     },
@@ -143,9 +135,7 @@
         "type": "function"
     },
     {
-        "inputs": [
-            { "internalType": "address", "name": "_facet", "type": "address" }
-        ],
+        "inputs": [{ "internalType": "address", "name": "_facet", "type": "address" }],
         "name": "facetFunctionSelectors",
         "outputs": [
             {
@@ -230,9 +220,7 @@
     { "inputs": [], "name": "EndTimeTooLow", "type": "error" },
     { "inputs": [], "name": "InsufficientToken", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "string", "name": "arg", "type": "string" }
-        ],
+        "inputs": [{ "internalType": "string", "name": "arg", "type": "string" }],
         "name": "InvalidAuctionParams",
         "type": "error"
     },
@@ -623,9 +611,7 @@
             }
         ],
         "name": "createAuction",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -638,9 +624,7 @@
             }
         ],
         "name": "getAuctionBidDecimals",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -666,9 +650,7 @@
             }
         ],
         "name": "getAuctionDebt",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -681,9 +663,7 @@
             }
         ],
         "name": "getAuctionDueIncentives",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -696,18 +676,14 @@
             }
         ],
         "name": "getAuctionEndTime",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
         "name": "getAuctionHammerTimeDuration",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -720,9 +696,7 @@
             }
         ],
         "name": "getAuctionHighestBid",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -735,9 +709,7 @@
             }
         ],
         "name": "getAuctionHighestBidder",
-        "outputs": [
-            { "internalType": "address", "name": "", "type": "address" }
-        ],
+        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -952,9 +924,7 @@
             }
         ],
         "name": "getAuctionStartTime",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -980,9 +950,7 @@
             }
         ],
         "name": "getContractAddress",
-        "outputs": [
-            { "internalType": "address", "name": "", "type": "address" }
-        ],
+        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -995,9 +963,7 @@
             }
         ],
         "name": "getTokenId",
-        "outputs": [
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -1185,9 +1151,7 @@
     {
         "inputs": [],
         "name": "owner",
-        "outputs": [
-            { "internalType": "address", "name": "owner_", "type": "address" }
-        ],
+        "outputs": [{ "internalType": "address", "name": "owner_", "type": "address" }],
         "stateMutability": "view",
         "type": "function"
     },
@@ -1206,9 +1170,7 @@
     },
     { "inputs": [], "name": "EmptyCalldata", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "ImmutableFunction",
         "type": "error"
     },
@@ -1220,24 +1182,18 @@
     { "inputs": [], "name": "NoZeroAddress", "type": "error" },
     { "inputs": [], "name": "NonEmptyCalldata", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "NonExistentSelector",
         "type": "error"
     },
     { "inputs": [], "name": "NotDiamondOwner", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "SameSelectorReplacement",
         "type": "error"
     },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "SelectorExists",
         "type": "error"
     },
@@ -1304,9 +1260,7 @@
     },
     { "inputs": [], "name": "EmptyCalldata", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "ImmutableFunction",
         "type": "error"
     },
@@ -1318,117 +1272,82 @@
     { "inputs": [], "name": "NoZeroAddress", "type": "error" },
     { "inputs": [], "name": "NonEmptyCalldata", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "NonExistentSelector",
         "type": "error"
     },
     { "inputs": [], "name": "NotDiamondOwner", "type": "error" },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
-        ],
+        "inputs": [{ "internalType": "bytes4", "name": "selector", "type": "bytes4" }],
         "name": "SameSelectorReplacement",
         "type": "error"
     },
     {
-        "inputs": [
-            { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    "inputs": [
+      { "internalType": "bytes4", "name": "selector", "type": "bytes4" }
+    ],
+    "name": "SelectorExists",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "facetAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "enum IDiamondCut.FacetCutAction",
+            "name": "action",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes4[]",
+            "name": "functionSelectors",
+            "type": "bytes4[]"
+          }
         ],
-        "name": "SelectorExists",
-        "type": "error"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "address",
-                        "name": "facetAddress",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "enum IDiamondCut.FacetCutAction",
-                        "name": "action",
-                        "type": "uint8"
-                    },
-                    {
-                        "internalType": "bytes4[]",
-                        "name": "functionSelectors",
-                        "type": "bytes4[]"
-                    }
-                ],
-                "indexed": false,
-                "internalType": "struct IDiamondCut.FacetCut[]",
-                "name": "_diamondCut",
-                "type": "tuple[]"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "_init",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "bytes",
-                "name": "_calldata",
-                "type": "bytes"
-            }
-        ],
-        "name": "DiamondCut",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "previousOwner",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "OwnershipTransferred",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "_auctionId",
-                "type": "uint256"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_tokenContractAddress",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "_beneficiary",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "RoyaltyPaid",
-        "type": "event"
-    }
+        "indexed": false,
+        "internalType": "struct IDiamondCut.FacetCut[]",
+        "name": "_diamondCut",
+        "type": "tuple[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_init",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "_calldata",
+        "type": "bytes"
+      }
+    ],
+    "name": "DiamondCut",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  }
 ]
