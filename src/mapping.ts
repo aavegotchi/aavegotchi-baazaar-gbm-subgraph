@@ -319,7 +319,7 @@ export function handleAuction_Initialized(
     auction.cancelled = false;
     auction.buyNowPrice = BigInt.fromI32(0);
     auction.startBidPrice = BigInt.fromI32(0);
-    auction.isBuyNow = false;
+    auction.isBought = false;
 
     // Update Auction
     auction = updateAuction(auction, event);
@@ -599,7 +599,7 @@ export function handleAuction_BoughtNow(
     }
     auction.claimed = true;
     auction.claimAt = event.block.timestamp;
-    auction.isBuyNow = true;
+    auction.isBought = true;
 
     let bid = getOrCreateBid(
         auction.highestBidder,

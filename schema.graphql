@@ -47,7 +47,7 @@ type Auction @entity {
     category: Int!
     buyNowPrice: BigInt!
     startBidPrice: BigInt!
-    isBuyNow: Boolean!
+    isBought: Boolean!
 }
 
 type Bid @entity {

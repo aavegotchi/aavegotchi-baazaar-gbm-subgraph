@@ -84,7 +84,7 @@ export function getOrCreateAuction(
         auction.totalBids = BIGINT_ZERO;
         auction.buyNowPrice = BIGINT_ZERO;
         auction.startBidPrice = BIGINT_ZERO;
-        auction.isBuyNow = false;
+        auction.isBought = false;
     }
 
     return auction;
