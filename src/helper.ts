@@ -6,7 +6,7 @@ import {
     ethereum,
 } from "@graphprotocol/graph-ts";
 import { Auction, Bid, Incentive, Statistic, User } from "../generated/schema";
-import { BIGINT_ONE, BIGINT_ZERO, BLOCK_NR_BUY_NOW_ACTIVATED } from "./constants";
+import {BIGINT_ONE, BIGINT_STARTING_BID_FEE_PERCENT, BIGINT_ZERO, BLOCK_NR_BUY_NOW_ACTIVATED} from "./constants";
 import { ContractV1 } from "../generated/Contract/ContractV1";
 import { Contract } from "../generated/Contract/Contract";
 
@@ -84,6 +84,7 @@ export function getOrCreateAuction(
         auction.totalBids = BIGINT_ZERO;
         auction.buyNowPrice = BIGINT_ZERO;
         auction.startBidPrice = BIGINT_ZERO;
+        auction.startBidFeePercent = BIGINT_STARTING_BID_FEE_PERCENT;
         auction.isBought = false;
     }
 
