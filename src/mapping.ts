@@ -46,7 +46,7 @@ import {
 import { events, transactions } from "@amxx/graphprotocol-utils";
 import {
     BIGINT_CANCELLATION_PERIOD_IN_SECONDS,
-    BIGINT_ONE,
+    BIGINT_ONE, BIGINT_STARTING_BID_FEE_PERCENT,
     BIGINT_ZERO,
 } from "./constants";
 
@@ -319,6 +319,8 @@ export function handleAuction_Initialized(
     auction.cancelled = false;
     auction.buyNowPrice = BigInt.fromI32(0);
     auction.startBidPrice = BigInt.fromI32(0);
+    auction.startBidFeePercent = BIGINT_STARTING_BID_FEE_PERCENT;
+    auction.isBought = false;
 
     // Update Auction
     auction = updateAuction(auction, event);
@@ -598,6 +600,7 @@ export function handleAuction_BoughtNow(
     }
     auction.claimed = true;
     auction.claimAt = event.block.timestamp;
+    auction.isBought = true;
 
     let bid = getOrCreateBid(
         auction.highestBidder,
