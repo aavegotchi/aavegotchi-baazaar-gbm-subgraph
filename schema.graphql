@@ -71,6 +71,7 @@ type Bid @entity {
 
     bidMultiplier: BigInt!
     auctionCreatedAt: BigInt! # timestamp when auction was created
+    category: Int!
     presetId: Int
 }
 

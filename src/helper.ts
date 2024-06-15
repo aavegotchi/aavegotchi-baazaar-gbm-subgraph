@@ -45,6 +45,7 @@ export function getOrCreateBid(
 
         bid.bidMultiplier = auction.bidMultiplier;
         bid.auctionCreatedAt = auction.createdAt!;
+        bid.category = auction.category;
         bid.presetId = auction.presetId;
     }
 
