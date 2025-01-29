@@ -7,11 +7,14 @@
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ aavegotchi/aavegotchi-baazaar-gbm",
     "create-local": "graph create --node http://localhost:8020/ aavegotchi/aavegotchi-baazaar-gbm",
     "remove-local": "graph remove --node http://localhost:8020/ aavegotchi/aavegotchi-baazaar-gbm",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 aavegotchi/aavegotchi-baazaar-gbm"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 aavegotchi/aavegotchi-baazaar-gbm",
+    "prepare:matic": "mustache config/matic.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:geist": "mustache config/geist.json subgraph.template.yaml > subgraph.yaml"
   },
   "dependencies": {
     "@amxx/graphprotocol-utils": "^1.1.0",
     "@graphprotocol/graph-cli": "0.69.0",
-    "@graphprotocol/graph-ts": "0.34.0"
+    "@graphprotocol/graph-ts": "0.34.0",
+    "mustache": "^4.2.0"
   }
 }
