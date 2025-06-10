@@ -9,7 +9,8 @@
     "remove-local": "graph remove --node http://localhost:8020/ aavegotchi/aavegotchi-baazaar-gbm",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 aavegotchi/aavegotchi-baazaar-gbm",
     "prepare:matic": "mustache config/matic.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:geist": "mustache config/geist.json subgraph.template.yaml > subgraph.yaml"
+    "prepare:geist": "mustache config/geist.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:base-sepolia": "mustache config/baseSepolia.json subgraph.template.yaml > subgraph.yaml"
   },
   "dependencies": {
     "@amxx/graphprotocol-utils": "^1.1.0",
