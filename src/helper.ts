@@ -272,7 +272,7 @@ export function updateAuctionV1(
 
   let presets = auctionInfo.presets;
 
-  log.debug("presets: {}", [presets.toString()]);
+  log.info("auctionInfo: {}", [auctionInfo.toString()]);
 
   auction.bidDecimals = presets.bidDecimals;
   auction.bidMultiplier = presets.bidMultiplier;
