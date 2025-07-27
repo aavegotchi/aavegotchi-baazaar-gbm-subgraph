@@ -9,11 +9,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Contract
-    network: "base-sepolia"
+    network: "base"
     source:
-      address: "0x0f685B66D7a5E67EDC584c5FdD28E38ba05fAFbb"
+      address: "0x80320A0000C7A6a34086E2ACAD6915Ff57FfDA31"
       abi: ContractV1
-      startBlock: 26863167
+      startBlock: 33276502
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
