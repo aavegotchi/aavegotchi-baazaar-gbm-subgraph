@@ -30,7 +30,7 @@ export function getOrCreateBid(
     bid.bidder = bidder;
     bid.amount = bidAmount;
     bid.auctionID = BigInt.fromString(auction.id);
-    // bid.auction = auction.id;
+    bid.auction = auction.id;
     bid.outbid = false;
     bid.bidTime = event.block.timestamp;
     bid.claimed = false;
